@@ -1,0 +1,15 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 환경변수 / 비밀키 (Supabase URL, 키 등은 절대 커밋 금지)
+.env
+.env.*
+*.key
+secrets*
+
+# 임시 파일
+*.log
+*.tmp
