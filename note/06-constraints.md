@@ -1,4 +1,4 @@
-# 6부 · 제약조건 기초 (21강 ~ 26강)
+# 6부 · 제약조건 기초 (21강 ~ 26강) ✅ 완료
 
 > 제약조건 = 데이터가 저장되기 전 통과해야 하는 "규칙". 타입이 값의 종류를 막는다면, 제약조건은 값의 조건을 막는다.
 
@@ -115,3 +115,33 @@ create table demo_default (
 );
 insert into demo_default (id) values (1);  -- is_active=true, created_at=현재시각 자동
 ```
+
+---
+
+## 26강 · 여러 컬럼 제약조건 + 기본값 패턴 (종합)
+
+![26강](../image/26-combined-pattern.svg)
+
+- **한 컬럼에 제약조건 여러 개** = 타입 뒤에 **공백으로 나열**: `email text not null unique`.
+- **컬럼과 컬럼 사이만 콤마** — 콤마 빠지면 `42601 syntax error`(10강 규칙!). 제약조건 사이엔 콤마 안 씀.
+- `not null default ...` 조합이 실무 국룰: "필수지만 안 넣으면 기본값 자동" → insert는 간결, 데이터는 안전.
+
+```sql
+create table demo_full (
+    id         bigint      primary key,
+    email      text        not null unique,
+    name       text        not null,
+    age        integer,
+    is_active  boolean     not null default true,
+    created_at timestamptz not null default now()
+);
+insert into demo_full (id, email, name) values (1, 'a@x.com', '홍길동');
+-- age=null, is_active=true, created_at=현재시각 자동
+```
+
+- 이게 8강 최종 SQL의 `members`/`posts` 테이블이 생긴 원리. 컬럼마다 제약조건을 조합한 것일 뿐.
+
+---
+
+### 6부(21~26) 한 줄 요약
+> 제약조건은 값의 규칙을 강제한다. `not null`(빈값 금지), `unique`(중복 금지, null은 예외), `primary key`(=unique+not null, 테이블당 1개 대표 식별자), `default`(생략 시 기본값). 한 컬럼에 여러 개는 공백으로 나열, 컬럼 사이는 콤마. 다음 7부는 id를 자동 증가시키는 `identity`.
