@@ -28,7 +28,7 @@
 | 6부 | 24강 | `primary key` | ✅ |
 | 6부 | 25강 | `default` / `default now()` | ✅ |
 | 6부 | 26강 | 여러 컬럼 제약조건 + 기본값 패턴 | ✅ |
-| 7부 | 27강 | `generated always as identity` | ⬜ |
+| 7부 | 27강 | `generated always as identity` | ✅ |
 | 7부 | 28강 | identity + primary key (bigint 패턴) | ⬜ |
 | 7부 | 29강 | id column 설계 패턴 | ⬜ |
 
@@ -47,4 +47,4 @@ prgrms-Supabase/
 각 강은 세 종류로 기록됩니다:
 - **sql/** — 실제로 타이핑·실행한 SQL (`NN-주제.sql`)
 - **image/** — 개념을 시각화한 그림 (`NN-주제.svg`, GitHub에서 바로 렌더링)
-- **note/** — 부 단위로 묶은 학습 노트 ([4부](note/04-table-basics.md) · [5부](note/05-types.md) · [6부](note/06-constraints.md))
+- **note/** — 부 단위로 묶은 학습 노트 ([4부](note/04-table-basics.md) · [5부](note/05-types.md) · [6부](note/06-constraints.md) · [7부](note/07-identity.md))
