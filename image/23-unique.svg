@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="350" viewBox="0 0 680 350" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="348" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">23강 · unique + 중복 에러</text>
+
+  <rect x="190" y="58" width="300" height="48" rx="8" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="340" y="82" font-size="14" font-weight="500" fill="#3C3489" text-anchor="middle">email text unique</text>
+  <text x="340" y="100" font-size="12" fill="#534AB7" text-anchor="middle">중복 금지 (값이 유일)</text>
+
+  <rect x="60" y="118" width="560" height="36" rx="8" fill="#EAF3DE" stroke="#639922"/>
+  <text x="340" y="141" font-size="14" fill="#173404" text-anchor="middle">'a@x.com' 삽입  →  저장 성공 (처음 보는 값)</text>
+  <rect x="60" y="160" width="560" height="36" rx="8" fill="#EAF3DE" stroke="#639922"/>
+  <text x="340" y="183" font-size="14" fill="#173404" text-anchor="middle">'b@x.com' 삽입  →  저장 성공 (다른 값)</text>
+  <rect x="60" y="202" width="560" height="36" rx="8" fill="#FCEBEB" stroke="#E24B4A"/>
+  <text x="340" y="225" font-size="14" fill="#791F1F" text-anchor="middle">'a@x.com' 또 삽입  →  거부 (이미 존재)</text>
+
+  <rect x="60" y="248" width="560" height="32" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="340" y="269" font-size="12" fill="#5F5E5A" text-anchor="middle">duplicate key value violates unique constraint</text>
+
+  <rect x="60" y="290" width="560" height="44" rx="8" fill="#E6F1FB" stroke="#378ADD"/>
+  <text x="340" y="312" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle">단, null 은 여러 개 허용</text>
+  <text x="340" y="328" font-size="12" fill="#185FA5" text-anchor="middle">값이 없는 것이라 중복으로 치지 않음</text>
+</svg>

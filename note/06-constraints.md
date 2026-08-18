@@ -47,3 +47,23 @@ create table demo_notnull (
 insert into demo_notnull (email) values ('b@x.com');  -- memo 생략 OK
 -- insert into demo_notnull (memo) values ('x');       -- email 생략 → 에러
 ```
+
+---
+
+## 23강 · unique + 중복 에러
+
+![23강](../image/23-unique.svg)
+
+- `unique` = 그 컬럼 값이 **전체 행에서 유일**해야 함(중복 금지).
+- 위반 에러: `duplicate key value violates unique constraint "..."`.
+- ⚠️ **null은 예외** — unique 컬럼에도 `null`은 **여러 개 허용**(값 없음이라 서로 같다고 안 봄). ← 직접 확인함.
+- "중복 없이 + 반드시 존재"까지 원하면 **`unique` + `not null`** → 이게 24강 `primary key`의 정체.
+- 실무: `email`, `username`, 사업자번호 등 중복되면 안 되는 값.
+
+```sql
+create table demo_unique ( email text unique );
+insert into demo_unique (email) values ('a@x.com');  -- OK
+-- insert into demo_unique (email) values ('a@x.com'); -- 거부(중복)
+insert into demo_unique (email) values (null);
+insert into demo_unique (email) values (null);       -- null 두 개 OK(예외)
+```
