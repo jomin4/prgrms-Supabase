@@ -93,5 +93,38 @@ select * from demo_time;
 
 ---
 
-### 5부(15~18) 한 줄 요약
-> 타입은 컬럼이 받을 값의 종류를 강제한다. 문자열은 기본 `text`, 정수는 넉넉하게 `bigint`, 날짜/시간은 무조건 `timestamptz`(시간대 안전). 다음은 `boolean`(19강), `uuid`(20강).
+---
+
+## 19강 · boolean 타입
+
+![19강](../image/19-boolean.svg)
+
+- `boolean`(= `bool`)은 **`true`(참) / `false`(거짓)** 두 값. 저장/표시는 항상 true/false(짧게 `t`/`f`).
+- 입력은 관대하지만 **문자열일 때** 얘기:
+  - 참: `true`, `'t'`, `'true'`, `'yes'`, `'y'`, `'on'`, `'1'`
+  - 거짓: `false`, `'f'`, `'false'`, `'no'`, `'n'`, `'off'`, `'0'`
+- ⚠️ **함정(직접 겪은 에러):** 맨숫자 정수 `1`/`0`은 boolean으로 **자동 변환 안 됨** → `ERROR 42804: ... is of type boolean but expression is of type integer`.
+  - 해결: 문자열 `'1'` 또는 명시적 캐스트 `1::boolean`.
+  - 배운 개념: **암시적 캐스트(자동) vs 명시적 캐스트(`::타입` 직접 지시)**.
+
+### 3-state — null ≠ false
+| 상태 | 의미 |
+|---|---|
+| `true` | 참 |
+| `false` | 거짓 |
+| `null` | 아직 정해지지 않음/모름 (**false와 다름**) |
+
+- 실무 쓰임: `is_active`, `is_public`, `is_deleted`, `email_verified` 같은 on/off 플래그.
+
+```sql
+insert into demo_bool (label, is_active) values
+    ('문자1로 입력', '1'),        -- OK (문자열)
+    ('숫자1 캐스트', 1::boolean), -- OK (명시적 캐스트)
+    ('미정(null)',   null);       -- null 그대로
+-- ('맨숫자', 1)  → ERROR 42804 (정수는 자동 변환 안 됨)
+```
+
+---
+
+### 5부(15~19) 한 줄 요약
+> 타입은 컬럼이 받을 값의 종류를 강제한다. 문자열은 기본 `text`, 정수는 넉넉하게 `bigint`, 날짜/시간은 무조건 `timestamptz`, 참/거짓은 `boolean`(맨숫자 대신 문자열/캐스트, null은 제3의 상태). 다음은 `uuid`(20강).
