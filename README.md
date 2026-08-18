@@ -23,7 +23,7 @@
 | 5부 | 19강 | `boolean` 타입 | ✅ |
 | 5부 | 20강 | `uuid` 타입 | ✅ |
 | 6부 | 21강 | 제약조건이란? | ✅ |
-| 6부 | 22강 | `not null` | ⬜ |
+| 6부 | 22강 | `not null` | ✅ |
 | 6부 | 23강 | `unique` | ⬜ |
 | 6부 | 24강 | `primary key` | ⬜ |
 | 6부 | 25강 | `default` / `default now()` | ⬜ |

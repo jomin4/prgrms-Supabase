@@ -26,3 +26,24 @@ create table demo_rule (
 insert into demo_rule (email) values ('a@x.com');  -- OK
 insert into demo_rule (email) values (null);       -- 거부(에러)
 ```
+
+---
+
+## 22강 · not null + 위반 에러
+
+![22강](../image/22-not-null.svg)
+
+- `not null` = 그 컬럼에 **null 금지**, 반드시 값 필요.
+- **기본은 nullable** — 아무것도 안 붙이면 null 허용. `not null`을 명시해야 필수가 됨.
+- 위반 두 경우: ① null 직접 넣기 ② insert에서 컬럼 생략(자동 null).
+- 위반 에러: `null value in column "email" violates not-null constraint`.
+- 실무: `email`·`name`·`created_at` 등 필수 정보에 건다. `memo`·`phone` 등 선택 정보엔 안 건다.
+
+```sql
+create table demo_notnull (
+    email text not null,   -- 필수
+    memo  text             -- 선택(null 허용)
+);
+insert into demo_notnull (email) values ('b@x.com');  -- memo 생략 OK
+-- insert into demo_notnull (memo) values ('x');       -- email 생략 → 에러
+```

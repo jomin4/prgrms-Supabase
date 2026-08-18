@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="330" viewBox="0 0 680 330" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="328" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">22강 · not null + 위반 에러</text>
+
+  <rect x="200" y="58" width="280" height="50" rx="8" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="340" y="82" font-size="14" font-weight="500" fill="#3C3489" text-anchor="middle">email text not null</text>
+  <text x="340" y="100" font-size="12" fill="#534AB7" text-anchor="middle">필수 값 (null 금지)</text>
+
+  <line x1="320" y1="110" x2="222" y2="134" stroke="#888780" stroke-width="2"/>
+  <path d="M216,128 L214,138 L224,135 Z" fill="#888780"/>
+  <line x1="360" y1="110" x2="458" y2="134" stroke="#888780" stroke-width="2"/>
+  <path d="M464,128 L466,138 L456,135 Z" fill="#888780"/>
+
+  <rect x="60" y="140" width="250" height="64" rx="8" fill="#EAF3DE" stroke="#639922"/>
+  <text x="185" y="166" font-size="14" font-weight="500" fill="#173404" text-anchor="middle">값 있음: 'a@x.com'</text>
+  <text x="185" y="188" font-size="12" fill="#3B6D11" text-anchor="middle">→ 저장 성공</text>
+  <rect x="370" y="140" width="250" height="64" rx="8" fill="#FCEBEB" stroke="#E24B4A"/>
+  <text x="495" y="166" font-size="14" font-weight="500" fill="#791F1F" text-anchor="middle">값 없음: null 또는 생략</text>
+  <text x="495" y="188" font-size="12" fill="#A32D2D" text-anchor="middle">→ 저장 거부 (에러)</text>
+
+  <rect x="60" y="220" width="560" height="34" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="340" y="242" font-size="12" fill="#5F5E5A" text-anchor="middle">null value in column "email" violates not-null constraint</text>
+
+  <rect x="60" y="266" width="560" height="46" rx="8" fill="#E6F1FB" stroke="#378ADD"/>
+  <text x="340" y="290" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle">컬럼은 기본적으로 null 허용</text>
+  <text x="340" y="306" font-size="12" fill="#185FA5" text-anchor="middle">not null 을 붙여야 '필수 값'이 된다</text>
+</svg>
