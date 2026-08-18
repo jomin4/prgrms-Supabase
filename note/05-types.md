@@ -1,6 +1,6 @@
-# 5부 · PostgreSQL 기본 타입 (15강 ~ 17강)
+# 5부 · PostgreSQL 기본 타입 (15강 ~ 20강)
 
-> 18강(날짜/시간)부터는 정속 학습 예정. 여기(15~17)는 기본 SQL 지식으로 대부분 아는 구간이라 핵심 + PostgreSQL 차이점 위주로 정리.
+> 15~17강은 기본 SQL 지식으로 대부분 아는 구간이라 핵심 + PostgreSQL 차이점 위주. 18강부터는 정속 학습.
 
 ---
 
@@ -62,5 +62,36 @@ create table demo (
 
 ---
 
-### 5부(15~17) 한 줄 요약
-> 타입은 컬럼이 받을 값의 종류를 강제한다. 문자열은 기본 `text`(길이 제한 필요 시 `varchar(N)`), 정수는 넉넉하게 `bigint`(작으면 `integer`). 다음(18강)은 PostgreSQL 특유의 함정인 `timestamp` vs `timestamptz`.
+---
+
+## 18강 · 날짜/시간 타입 (timestamp, timestamptz)
+
+![18강](../image/18-datetime-types.svg)
+
+- 이름이 곧 정체:
+  - `timestamp` = `timestamp **without** time zone` → 시각 문자만 저장 (**시간대 없음**)
+  - `timestamptz` = `timestamp **with** time zone` → 절대 순간 저장 (내부 UTC), 조회 시 세션 시간대로 변환
+
+| 구분 | `timestamp` | `timestamptz` ✅ |
+|---|---|---|
+| 저장하는 것 | 날짜+시간 문자 그대로 | 절대 순간(내부 UTC) |
+| 시간대 정보 | 없음 | 있음 |
+| 조회 시 | 저장된 문자 그대로 | 보는 사람 시간대로 자동 변환 |
+
+- **함정:** `timestamp`는 시간대 꼬리표가 없어, 서버·지역이 다르면 같은 값이 다른 순간으로 해석됨 → **조용히 틀리는 데이터 버그**(문법 에러가 아니라 더 위험).
+- **결론:** 날짜/시간은 웬만하면 무조건 **`timestamptz`**. Supabase 자동 컬럼(`created_at` 등)도 전부 timestamptz, `now()`도 timestamptz 반환.
+
+```sql
+create table demo_time (
+    ts   timestamp,    -- 시간대 없음
+    tstz timestamptz   -- 시간대 있음
+);
+insert into demo_time (ts, tstz) values (now(), now());
+select * from demo_time;
+-- 관찰: tstz 값 끝에만 +00(UTC 오프셋)이 붙는다.
+```
+
+---
+
+### 5부(15~18) 한 줄 요약
+> 타입은 컬럼이 받을 값의 종류를 강제한다. 문자열은 기본 `text`, 정수는 넉넉하게 `bigint`, 날짜/시간은 무조건 `timestamptz`(시간대 안전). 다음은 `boolean`(19강), `uuid`(20강).
