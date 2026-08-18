@@ -22,6 +22,9 @@
 
 | 부 | 강 | 주제 | 상태 |
 |---|---|---|---|
+| 1부 | 1강 | Supabase 구조 & 생태계 | ✅ |
+| 1부 | 2강 | 오거니제이션·프로젝트 생성 | 🔵 진행 중 |
+| 2부 | 3~7강 | 프론트 환경·회원가입·로그인·카카오 | ⬜ |
 | 4부 | 9강 | `create table` 만들기 기초 | ✅ |
 | 4부 | 10강 | 여러 컬럼과 콤마 | ✅ |
 | 4부 | 11강 | SQL 문장의 세미콜론 | ✅ |
@@ -59,4 +62,4 @@ prgrms-Supabase/
 각 강은 세 종류로 기록됩니다:
 - **sql/** — 실제로 타이핑·실행한 SQL (`NN-주제.sql`)
 - **image/** — 개념을 시각화한 그림 (`NN-주제.svg`, GitHub에서 바로 렌더링)
-- **note/** — 부 단위로 묶은 학습 노트 ([4부](note/04-table-basics.md) · [5부](note/05-types.md) · [6부](note/06-constraints.md) · [7부](note/07-identity.md))
+- **note/** — 부 단위로 묶은 학습 노트 ([1부](note/01-supabase-basics.md) · [4부](note/04-table-basics.md) · [5부](note/05-types.md) · [6부](note/06-constraints.md) · [7부](note/07-identity.md))

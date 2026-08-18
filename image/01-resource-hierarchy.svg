@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="330" viewBox="0 0 680 330" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="328" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="34" font-size="17" font-weight="600" fill="#2C2C2A">1강 · 리소스 계층 &amp; 개발자 제어 영역</text>
+
+  <rect x="40" y="50" width="600" height="200" rx="10" fill="none" stroke="#B4B2A9" stroke-width="1.5"/>
+  <text x="56" y="72" font-size="13" fill="#2C2C2A">Organization · 결제/팀 단위</text>
+  <rect x="66" y="86" width="548" height="150" rx="10" fill="none" stroke="#888780" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="82" y="108" font-size="13" fill="#2C2C2A">Project · 전용 PostgreSQL + 서비스 한 벌</text>
+
+  <rect x="82" y="122" width="124" height="100" rx="8" fill="#EAF3DE" stroke="#639922"/>
+  <text x="144" y="152" font-size="14" font-weight="500" fill="#173404" text-anchor="middle">public</text>
+  <text x="144" y="176" font-size="11" fill="#3B6D11" text-anchor="middle">내 비즈니스 데이터</text>
+  <text x="144" y="198" font-size="11" fill="#3B6D11" text-anchor="middle">자유 설계</text>
+
+  <rect x="214" y="122" width="124" height="100" rx="8" fill="#FCEBEB" stroke="#E24B4A"/>
+  <text x="276" y="152" font-size="14" font-weight="500" fill="#791F1F" text-anchor="middle">auth</text>
+  <text x="276" y="176" font-size="11" fill="#A32D2D" text-anchor="middle">회원·인증</text>
+  <text x="276" y="198" font-size="11" fill="#A32D2D" text-anchor="middle">Supabase 관리</text>
+
+  <rect x="346" y="122" width="124" height="100" rx="8" fill="#FCEBEB" stroke="#E24B4A"/>
+  <text x="408" y="152" font-size="14" font-weight="500" fill="#791F1F" text-anchor="middle">storage</text>
+  <text x="408" y="176" font-size="11" fill="#A32D2D" text-anchor="middle">파일 메타데이터</text>
+  <text x="408" y="198" font-size="11" fill="#A32D2D" text-anchor="middle">Supabase 관리</text>
+
+  <rect x="478" y="122" width="124" height="100" rx="8" fill="#EAF3DE" stroke="#639922"/>
+  <text x="540" y="152" font-size="14" font-weight="500" fill="#173404" text-anchor="middle">Edge Fn</text>
+  <text x="540" y="176" font-size="11" fill="#3B6D11" text-anchor="middle">커스텀 로직</text>
+  <text x="540" y="198" font-size="11" fill="#3B6D11" text-anchor="middle">자유</text>
+
+  <rect x="40" y="272" width="600" height="42" rx="8" fill="#E6F1FB" stroke="#378ADD"/>
+  <text x="340" y="298" font-size="13" font-weight="500" fill="#0C447C" text-anchor="middle">초록 = 개발자가 자유롭게 설계 · 빨강 = Supabase가 관리 (구조 변경 불가)</text>
+</svg>
