@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="300" viewBox="0 0 680 300" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="298" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">17강 · 정수 타입 (integer, bigint)</text>
+
+  <rect x="40" y="58" width="600" height="72" rx="10" fill="#E6F1FB" stroke="#85B7EB"/>
+  <text x="60" y="86" font-size="15" font-weight="500" fill="#0C447C">integer  (int4)   ≈  ± 21억</text>
+  <rect x="60" y="98" width="150" height="14" rx="4" fill="#378ADD"/>
+  <text x="222" y="110" font-size="12" fill="#185FA5">-2,147,483,648 ~ 2,147,483,647  (4바이트)</text>
+
+  <rect x="40" y="142" width="600" height="72" rx="10" fill="#E6F1FB" stroke="#378ADD"/>
+  <text x="60" y="170" font-size="15" font-weight="500" fill="#0C447C">bigint  (int8)   ≈  ± 922경  (훨씬 큼)</text>
+  <rect x="60" y="182" width="560" height="14" rx="4" fill="#185FA5"/>
+  <text x="60" y="210" font-size="12" fill="#185FA5">-9,223,372,036,854,775,808 ~ 9,223,372,036,854,775,807  (8바이트)</text>
+
+  <rect x="40" y="228" width="600" height="46" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="60" y="256" font-size="13" fill="#2C2C2A">헷갈리면 bigint 가 안전 · id 컬럼엔 보통 bigint 를 쓴다 (28강에서 자세히)</text>
+</svg>

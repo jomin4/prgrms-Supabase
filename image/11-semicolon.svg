@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="340" viewBox="0 0 680 340" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="338" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">11강 · SQL 문장의 세미콜론</text>
+
+  <rect x="70" y="60" width="380" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56"/>
+  <text x="90" y="88" font-size="14" font-weight="500" fill="#085041">drop table members</text>
+  <rect x="462" y="66" width="40" height="32" rx="8" fill="#FAECE7" stroke="#993C1D"/>
+  <text x="482" y="88" font-size="16" font-weight="500" fill="#712B13" text-anchor="middle">;</text>
+  <text x="90" y="124" font-size="12" fill="#888780">① 첫 번째 문장이 여기서 끝남</text>
+
+  <rect x="70" y="142" width="380" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56"/>
+  <text x="90" y="170" font-size="14" font-weight="500" fill="#085041">create table members ( ... )</text>
+  <rect x="462" y="148" width="40" height="32" rx="8" fill="#FAECE7" stroke="#993C1D"/>
+  <text x="482" y="170" font-size="16" font-weight="500" fill="#712B13" text-anchor="middle">;</text>
+  <text x="90" y="206" font-size="12" fill="#888780">② 두 번째 문장이 여기서 끝남</text>
+
+  <rect x="70" y="232" width="540" height="64" rx="8" fill="#FAEEDA" stroke="#854F0B"/>
+  <text x="340" y="260" font-size="15" font-weight="500" fill="#633806" text-anchor="middle">세미콜론 ;  ≈  문장의 마침표 .</text>
+  <text x="340" y="282" font-size="12" fill="#854F0B" text-anchor="middle">여러 문장을 ; 로 구분해 위 → 아래 순서로 실행</text>
+</svg>

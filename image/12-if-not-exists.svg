@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="310" viewBox="0 0 680 310" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="308" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">12강 · 이름 충돌과 if not exists</text>
+  <text x="40" y="60" font-size="13" fill="#5F5E5A">상황: members 테이블이 이미 있는 상태에서 다시 만들면?</text>
+
+  <rect x="40" y="74" width="600" height="72" rx="10" fill="#FCEBEB" stroke="#F09595"/>
+  <circle cx="62" cy="100" r="6" fill="#E24B4A"/>
+  <text x="78" y="105" font-size="14" font-weight="500" fill="#501313">create table members ( ... );</text>
+  <text x="62" y="130" font-size="12" fill="#A32D2D">→ 에러: 같은 이름이 이미 있어 충돌  (relation "members" already exists)</text>
+
+  <rect x="40" y="156" width="600" height="72" rx="10" fill="#EAF3DE" stroke="#97C459"/>
+  <circle cx="62" cy="182" r="6" fill="#639922"/>
+  <text x="78" y="187" font-size="14" font-weight="500" fill="#173404">create table if not exists members ( ... );</text>
+  <text x="62" y="212" font-size="12" fill="#3B6D11">→ 통과: 이미 있으면 아무 일도 안 하고 넘어감 (에러 없음)</text>
+
+  <rect x="40" y="244" width="600" height="46" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="60" y="272" font-size="13" fill="#2C2C2A">if not exists = "없을 때만 만들어라"  →  같은 코드를 여러 번 실행해도 안전</text>
+</svg>

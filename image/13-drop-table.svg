@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="300" viewBox="0 0 680 300" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="298" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">13강 · drop table 과 if exists</text>
+
+  <rect x="40" y="56" width="600" height="52" rx="10" fill="#E1F5EE" stroke="#5DCAA5"/>
+  <circle cx="62" cy="82" r="6" fill="#1D9E75"/>
+  <text x="78" y="79" font-size="14" font-weight="500" fill="#04342C">drop table members;   (표가 있을 때)</text>
+  <text x="78" y="98" font-size="12" fill="#0F6E56">→ 표 삭제 성공. 안에 든 데이터까지 전부 사라짐</text>
+
+  <rect x="40" y="118" width="600" height="52" rx="10" fill="#FCEBEB" stroke="#F09595"/>
+  <circle cx="62" cy="144" r="6" fill="#E24B4A"/>
+  <text x="78" y="141" font-size="14" font-weight="500" fill="#501313">drop table members;   (표가 없을 때)</text>
+  <text x="78" y="160" font-size="12" fill="#A32D2D">→ 에러: 없는 표를 지우라고 함 (table "members" does not exist)</text>
+
+  <rect x="40" y="180" width="600" height="52" rx="10" fill="#EAF3DE" stroke="#97C459"/>
+  <circle cx="62" cy="206" r="6" fill="#639922"/>
+  <text x="78" y="203" font-size="14" font-weight="500" fill="#173404">drop table if exists members;   (표가 없을 때)</text>
+  <text x="78" y="222" font-size="12" fill="#3B6D11">→ 통과: 없으면 그냥 넘어감 (에러 없음)</text>
+
+  <rect x="40" y="244" width="600" height="42" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="60" y="270" font-size="13" fill="#2C2C2A">if exists = "있으면 지워라"  →  없어도 에러 안 남 (안전하게 삭제)</text>
+</svg>
