@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="320" viewBox="0 0 680 320" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="318" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">20강 · uuid 타입</text>
+
+  <rect x="55" y="64" width="128" height="44" rx="6" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="119" y="91" font-size="14" fill="#3C3489" text-anchor="middle">550e8400</text>
+  <text x="190" y="91" font-size="14" fill="#5F5E5A" text-anchor="middle">-</text>
+  <rect x="198" y="64" width="68" height="44" rx="6" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="232" y="91" font-size="14" fill="#3C3489" text-anchor="middle">e29b</text>
+  <text x="273" y="91" font-size="14" fill="#5F5E5A" text-anchor="middle">-</text>
+  <rect x="281" y="64" width="68" height="44" rx="6" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="315" y="91" font-size="14" fill="#3C3489" text-anchor="middle">41d4</text>
+  <text x="356" y="91" font-size="14" fill="#5F5E5A" text-anchor="middle">-</text>
+  <rect x="364" y="64" width="68" height="44" rx="6" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="398" y="91" font-size="14" fill="#3C3489" text-anchor="middle">a716</text>
+  <text x="439" y="91" font-size="14" fill="#5F5E5A" text-anchor="middle">-</text>
+  <rect x="447" y="64" width="158" height="44" rx="6" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="526" y="91" font-size="14" fill="#3C3489" text-anchor="middle">446655440000</text>
+
+  <text x="119" y="126" font-size="12" fill="#888780" text-anchor="middle">8</text>
+  <text x="232" y="126" font-size="12" fill="#888780" text-anchor="middle">4</text>
+  <text x="315" y="126" font-size="12" fill="#888780" text-anchor="middle">4</text>
+  <text x="398" y="126" font-size="12" fill="#888780" text-anchor="middle">4</text>
+  <text x="526" y="126" font-size="12" fill="#888780" text-anchor="middle">12</text>
+  <text x="340" y="150" font-size="12" fill="#5F5E5A" text-anchor="middle">16진수 32자리를 8-4-4-4-12 로 묶은 128비트 전역 고유 ID</text>
+
+  <rect x="110" y="174" width="200" height="44" rx="8" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="210" y="201" font-size="14" fill="#3C3489" text-anchor="middle">gen_random_uuid()</text>
+  <line x1="314" y1="196" x2="352" y2="196" stroke="#888780" stroke-width="2"/>
+  <path d="M346,190 L356,196 L346,202 Z" fill="#888780"/>
+  <rect x="356" y="174" width="250" height="44" rx="8" fill="#E1F5EE" stroke="#0F6E56"/>
+  <text x="481" y="201" font-size="14" fill="#085041" text-anchor="middle">매번 새로운 고유값 생성</text>
+
+  <rect x="60" y="240" width="560" height="58" rx="8" fill="#E6F1FB" stroke="#378ADD"/>
+  <text x="340" y="264" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle">bigint id : 1·2·3 순차·작음   ↔   uuid : 랜덤·전역 고유·예측 불가</text>
+  <text x="340" y="286" font-size="12" fill="#185FA5" text-anchor="middle">Supabase auth.users 의 id 가 uuid (회원 연결 시 이 타입 사용)</text>
+</svg>

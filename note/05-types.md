@@ -1,4 +1,4 @@
-# 5부 · PostgreSQL 기본 타입 (15강 ~ 20강)
+# 5부 · PostgreSQL 기본 타입 (15강 ~ 20강) ✅ 완료
 
 > 15~17강은 기본 SQL 지식으로 대부분 아는 구간이라 핵심 + PostgreSQL 차이점 위주. 18강부터는 정속 학습.
 
@@ -126,5 +126,37 @@ insert into demo_bool (label, is_active) values
 
 ---
 
-### 5부(15~19) 한 줄 요약
-> 타입은 컬럼이 받을 값의 종류를 강제한다. 문자열은 기본 `text`, 정수는 넉넉하게 `bigint`, 날짜/시간은 무조건 `timestamptz`, 참/거짓은 `boolean`(맨숫자 대신 문자열/캐스트, null은 제3의 상태). 다음은 `uuid`(20강).
+---
+
+## 20강 · uuid 타입
+
+![20강](../image/20-uuid.svg)
+
+- `uuid` = 16진수 32자리를 `8-4-4-4-12`로 묶은 **128비트 전역 고유 ID**.
+  예) `550e8400-e29b-41d4-a716-446655440000`
+- 특징: **조율 없이 생성해도 사실상 안 겹침** · **예측 불가(랜덤)**.
+- 생성 함수: **`gen_random_uuid()`** (안 되면 `extensions.gen_random_uuid()`).
+
+| | `bigint` (자동증가) | `uuid` |
+|---|---|---|
+| 값 | 1·2·3 순차 | 랜덤 128비트 |
+| 크기/속도 | 작음(8B)·빠름 | 큼(16B) |
+| 예측 | 가능 | 불가 |
+| 생성 조율 | 필요 | 불필요 |
+| 대표 사용처 | 내부 PK (27~29강) | 분산 환경, Supabase `auth.users.id` |
+
+- 💡 **Supabase `auth.users.id` 가 uuid** → members를 로그인 사용자와 연결할 때 이 타입으로 잇는다. (8강 최종 SQL의 `auth_user_id uuid`)
+
+```sql
+create table demo_uuid (
+    id    uuid default gen_random_uuid(),  -- 안 넣으면 자동 채움
+    label text
+);
+insert into demo_uuid (label) values ('첫 행'), ('둘째 행');
+-- id를 직접 안 넣어도 행마다 다른 uuid가 자동으로 채워짐
+```
+
+---
+
+### 5부(15~20) 한 줄 요약
+> 타입은 컬럼이 받을 값의 종류를 강제한다. 문자열 `text`, 정수 `bigint`, 날짜/시간 `timestamptz`, 참/거짓 `boolean`, 고유 식별자 `uuid`. 다음 6부는 **제약조건**(not null, unique, primary key, default) — "어떤 값을 허용/금지할지" 규칙을 건다.
