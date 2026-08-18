@@ -7,7 +7,6 @@
     --hand:'Segoe Print','Bradley Hand','Comic Sans MS','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
     --ui:'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;
   }
-  :root:not([data-theme="light"]){}
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
       --bg:#191A1E; --panel:#232429; --panel2:#2A2B31;
@@ -26,7 +25,7 @@
   .wrap{background:var(--bg);color:var(--ink);font-family:var(--ui);padding:20px;border-radius:14px;line-height:1.6}
   .head h1{font-family:var(--hand);font-size:26px;font-weight:400;margin:0 0 2px;letter-spacing:.3px}
   .head p{margin:0 0 14px;color:var(--muted);font-size:14px}
-  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
   .reqs{display:flex;flex-wrap:wrap;gap:8px}
   .req{font-family:var(--hand);font-size:15px;background:var(--panel);color:var(--ink);border:2px solid var(--line);
     border-radius:12px;padding:7px 13px;cursor:pointer;transition:transform .08s,border-color .15s,background .15s}
@@ -38,24 +37,26 @@
   #send:hover{filter:brightness(1.05)}
   #send:active{transform:translate(1px,2px);box-shadow:1px 1px 0 rgba(0,0,0,.18)}
   #send[disabled]{opacity:.5;cursor:default;box-shadow:none}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 12px;font-size:12.5px;color:var(--muted)}
+  .legend b{font-weight:400}
+  .swatch{display:inline-block;width:22px;height:0;border-top:3px solid;vertical-align:middle;margin-right:6px}
   .stage{overflow-x:auto;border:2px dashed var(--line);border-radius:14px;background:var(--panel2);padding:6px}
-  svg{display:block;width:100%;min-width:640px;height:auto}
+  svg{display:block;width:100%;min-width:720px;height:auto}
   .bx{fill:var(--panel);stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round}
-  .bx.kong{stroke:var(--accent)} .bx.s0{stroke:var(--teal)} .bx.s1{stroke:var(--violet)}
-  .bx.s2{stroke:var(--amber)} .bx.s3{stroke:var(--pink)} .bx.s4{stroke:var(--green)} .bx.pg{stroke:var(--ink);stroke-width:3}
-  .svc{opacity:.4;transition:opacity .25s}
-  .svc.on{opacity:1}
-  .road{stroke:var(--line);stroke-width:2.4;fill:none;stroke-linecap:round}
-  .road.on{stroke:var(--accent);stroke-width:3.4}
+  .bx.api{stroke:var(--accent)} .bx.svc{stroke:var(--teal)} .bx.direct{stroke:var(--amber)} .bx.pg{stroke:var(--ink);stroke-width:3}
+  .lane{opacity:.35;transition:opacity .25s}
+  .lane.on{opacity:1}
+  .road{stroke-width:2.6;fill:none;stroke-linecap:round;stroke:var(--line)}
+  .road.api.on{stroke:var(--green)} .road.direct.on{stroke:var(--amber)}
   .lbl{font-family:var(--hand);fill:var(--ink);text-anchor:middle}
-  .lbl.big{font-size:17px} .lbl.sm{font-size:12.5px;fill:var(--muted)}
-  .badge{font-family:var(--hand);font-size:12px;text-anchor:middle}
-  #rls{opacity:0;transition:opacity .2s}
-  #rls.show{opacity:1}
+  .lbl.big{font-size:16px} .lbl.sm{font-size:12px;fill:var(--muted)}
+  .badge{opacity:0;transition:opacity .2s}
+  .badge.show{opacity:1}
+  .badge text{font-family:var(--hand);font-size:12.5px;text-anchor:middle}
   .steps{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:6px}
   .steps li{display:flex;gap:10px;align-items:baseline;font-size:14.5px;color:var(--muted);
     border-left:3px solid var(--line);padding:4px 0 4px 12px;transition:color .2s,border-color .2s}
-  .steps li .n{font-family:var(--hand);font-weight:400;color:var(--muted);min-width:18px}
+  .steps li .n{font-family:var(--hand);color:var(--muted);min-width:18px}
   .steps li.active{color:var(--ink);border-color:var(--accent)}
   .steps li.active .n{color:var(--accent)}
   .steps li.done{color:var(--ink);border-color:var(--green)}
@@ -63,161 +64,145 @@
   @media (prefers-reduced-motion:reduce){.req,#send{transition:none}}
 </style>
 
-<h2 class="sr-only">Supabase 아키텍처를 통과하는 클라이언트 요청 흐름을 보여주는 인터랙티브 다이어그램. 요청 종류를 고르고 보내기를 누르면 패킷이 클라이언트에서 API 게이트웨이, 해당 서비스, PostgreSQL을 거쳐 응답으로 돌아옵니다.</h2>
+<h2 class="sr-only">Supabase에 접근하는 세 가지 방식을 보여주는 인터랙티브 다이어그램. 앱(supabase-js)은 Kong 게이트웨이와 API 서비스를 거쳐 PostgreSQL에 닿으며 RLS가 적용된다. SQL Editor와 DB 툴은 API를 거치지 않고 PostgreSQL에 직접 접근하며 RLS를 우회한다. 방식을 고르고 요청 보내기를 누르면 패킷이 경로를 따라 흐른다.</h2>
 
 <div class="wrap">
   <div class="head">
-    <h1>Supabase 요청 흐름</h1>
-    <p>요청 종류를 고르고 <b>요청 보내기</b>를 누르면, 패킷이 아키텍처를 따라 흐릅니다.</p>
+    <h1>Supabase 접근 방식 &amp; 아키텍처</h1>
+    <p>같은 PostgreSQL에 닿는 <b>세 가지 경로</b>. API 경로만 RLS로 보호되고, 직접 경로는 RLS를 우회합니다.</p>
   </div>
 
   <div class="controls">
-    <div class="reqs" role="group" aria-label="요청 종류">
-      <button class="req" data-type="db" aria-pressed="true">DB 조회</button>
-      <button class="req" data-type="auth" aria-pressed="false">로그인</button>
-      <button class="req" data-type="realtime" aria-pressed="false">실시간 구독</button>
-      <button class="req" data-type="storage" aria-pressed="false">파일 업로드</button>
-      <button class="req" data-type="edge" aria-pressed="false">Edge 함수</button>
+    <div class="reqs" role="group" aria-label="접근 방식">
+      <button class="req" data-m="api" aria-pressed="true">앱 (supabase-js)</button>
+      <button class="req" data-m="sql" aria-pressed="false">SQL Editor (대시보드)</button>
+      <button class="req" data-m="db" aria-pressed="false">DB 툴 (DBeaver·서버)</button>
     </div>
     <button id="send">▶ 요청 보내기</button>
   </div>
 
+  <div class="legend">
+    <span><span class="swatch" style="border-color:var(--green)"></span><b>초록 경로 = RLS 보호</b> (anon 키로 안전)</span>
+    <span><span class="swatch" style="border-color:var(--amber)"></span><b>주황 경로 = RLS 우회</b> (DB 자격증명 · 서버/관리자 전용)</span>
+  </div>
+
   <div class="stage">
-    <svg viewBox="0 0 900 560" role="img" aria-label="Supabase 아키텍처 다이어그램">
+    <svg viewBox="0 0 960 580" role="img" aria-label="Supabase 접근 방식 다이어그램">
       <defs>
-        <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="2" seed="7" result="n"/>
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/></filter>
-        <marker id="ah" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto">
-          <path d="M1,1 L7,5 L1,9" fill="none" stroke="var(--line)" stroke-width="1.6" stroke-linecap="round"/></marker>
+        <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="7" result="n"/>
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
       </defs>
 
       <g filter="url(#rough)">
-        <path class="road" id="r-ck" d="M450,90 L450,120"/>
-        <path class="road" id="r-k0" d="M410,180 L150,250"/>
-        <path class="road" id="r-k1" d="M425,180 L300,250"/>
-        <path class="road" id="r-k2" d="M450,182 L450,250"/>
-        <path class="road" id="r-k3" d="M475,180 L600,250"/>
-        <path class="road" id="r-k4" d="M490,180 L750,250"/>
-        <path class="road" id="r-p0" d="M120,330 L150,430"/>
-        <path class="road" id="r-p1" d="M285,330 L300,430"/>
-        <path class="road" id="r-p2" d="M450,330 L450,430"/>
-        <path class="road" id="r-p3" d="M615,330 L600,430"/>
-        <path class="road" id="r-p4" d="M780,330 L750,430"/>
+        <path class="road api"    id="r-a1" d="M165,86 L165,148"/>
+        <path class="road api"    id="r-a2" d="M165,202 L165,246"/>
+        <path class="road api"    id="r-a3" d="M165,342 L165,442"/>
+        <path class="road direct" id="r-s1" d="M480,86 L480,442"/>
+        <path class="road direct" id="r-d1" d="M795,86 L795,148"/>
+        <path class="road direct" id="r-d2" d="M795,202 L795,442"/>
 
-        <rect class="bx" x="340" y="30" width="220" height="60" rx="10"/>
-        <rect class="bx kong" x="320" y="120" width="260" height="60" rx="10"/>
-        <g class="svc on" id="svc0"><rect class="bx s0" x="45"  y="250" width="150" height="80" rx="10"/></g>
-        <g class="svc" id="svc1"><rect class="bx s1" x="210" y="250" width="150" height="80" rx="10"/></g>
-        <g class="svc" id="svc2"><rect class="bx s2" x="375" y="250" width="150" height="80" rx="10"/></g>
-        <g class="svc" id="svc3"><rect class="bx s3" x="540" y="250" width="150" height="80" rx="10"/></g>
-        <g class="svc" id="svc4"><rect class="bx s4" x="705" y="250" width="150" height="80" rx="10"/></g>
-        <rect class="bx pg" x="45" y="430" width="810" height="80" rx="12"/>
+        <g class="lane on" id="lane-api">
+          <rect class="bx api"  x="40"  y="30"  width="250" height="56" rx="10"/>
+          <rect class="bx api"  x="40"  y="148" width="250" height="54" rx="10"/>
+          <rect class="bx svc"  x="40"  y="246" width="250" height="96" rx="10"/>
+        </g>
+        <g class="lane" id="lane-sql">
+          <rect class="bx direct" x="355" y="30" width="250" height="56" rx="10"/>
+        </g>
+        <g class="lane" id="lane-db">
+          <rect class="bx direct" x="670" y="30"  width="250" height="56" rx="10"/>
+          <rect class="bx direct" x="670" y="148" width="250" height="54" rx="10"/>
+        </g>
+
+        <rect class="bx pg" x="40" y="442" width="880" height="92" rx="12"/>
       </g>
 
-      <text class="lbl big" x="450" y="56">클라이언트 앱</text>
-      <text class="lbl sm"  x="450" y="76">supabase-js (웹/모바일)</text>
-      <text class="lbl big" x="450" y="146">API Gateway (Kong)</text>
-      <text class="lbl sm"  x="450" y="166">단일 진입점 · 라우팅</text>
+      <text class="lbl big" x="165" y="53">클라이언트 앱</text><text class="lbl sm" x="165" y="72">supabase-js · anon 키</text>
+      <text class="lbl big" x="165" y="170">API Gateway (Kong)</text><text class="lbl sm" x="165" y="189">단일 진입점 · 라우팅</text>
+      <text class="lbl big" x="165" y="278">API 서비스</text>
+      <text class="lbl sm" x="165" y="300">PostgREST · Auth · Realtime</text>
+      <text class="lbl sm" x="165" y="320">Storage · Edge Functions</text>
 
-      <text class="lbl big" x="120" y="284">PostgREST</text><text class="lbl sm" x="120" y="304">REST API 자동생성</text>
-      <text class="lbl big" x="285" y="284">Auth</text><text class="lbl sm" x="285" y="304">GoTrue · JWT</text>
-      <text class="lbl big" x="450" y="284">Realtime</text><text class="lbl sm" x="450" y="304">WebSocket</text>
-      <text class="lbl big" x="615" y="284">Storage</text><text class="lbl sm" x="615" y="304">파일 · S3</text>
-      <text class="lbl big" x="780" y="284">Edge Fn</text><text class="lbl sm" x="780" y="304">Deno</text>
+      <text class="lbl big" x="480" y="53">SQL Editor</text><text class="lbl sm" x="480" y="72">대시보드 · 관리자 권한</text>
 
-      <text class="lbl big" x="450" y="465">PostgreSQL</text>
-      <text class="lbl sm"  x="450" y="486">모든 데이터의 원천 · single source of truth</text>
-      <g id="rls"><rect x="690" y="444" width="150" height="30" rx="8" fill="none" stroke="var(--green)" stroke-width="2"/>
-        <text class="badge" x="765" y="464" fill="var(--green)">RLS 검사 통과 ✓</text></g>
+      <text class="lbl big" x="795" y="53">DB 툴 / 서버</text><text class="lbl sm" x="795" y="72">DBeaver · ORM · 연결문자열</text>
+      <text class="lbl big" x="795" y="170">Connection Pooler</text><text class="lbl sm" x="795" y="189">Supavisor · Session/Tx</text>
 
-      <circle id="packet" cx="450" cy="60" r="9" fill="var(--amber)" stroke="#fff" stroke-width="1.5" opacity="0"/>
+      <text class="lbl big" x="480" y="480">PostgreSQL</text>
+      <text class="lbl sm"  x="480" y="502">모든 데이터의 원천 · single source of truth</text>
+
+      <g class="badge" id="b-api"><rect x="92" y="410" width="146" height="26" rx="7" fill="none" stroke="var(--green)" stroke-width="2"/><text x="165" y="428" fill="var(--green)">RLS 적용 ✓</text></g>
+      <g class="badge" id="b-sql"><rect x="392" y="410" width="176" height="26" rx="7" fill="none" stroke="var(--amber)" stroke-width="2"/><text x="480" y="428" fill="var(--amber)">RLS 우회 · 관리자</text></g>
+      <g class="badge" id="b-db"><rect x="695" y="410" width="200" height="26" rx="7" fill="none" stroke="var(--amber)" stroke-width="2"/><text x="795" y="428" fill="var(--amber)">RLS 우회 · DB 자격증명</text></g>
+
+      <circle id="packet" cx="165" cy="58" r="9" fill="var(--amber)" stroke="#fff" stroke-width="1.5" opacity="0"/>
     </svg>
   </div>
 
   <ol class="steps" id="steps"></ol>
-  <p class="hint">💡 SQL Editor(대시보드)로 접속할 땐 이 API 경로를 거치지 않고 DB에 직접(관리자 권한, RLS 우회) 붙습니다.</p>
+  <p class="hint">💡 셋 다 결국 같은 PostgreSQL에 닿지만, <b>API 경로만 RLS 검사</b>를 거칩니다. 그래서 브라우저엔 anon 키만 두고(그래도 안전), <b>service_role 키·DB 비밀번호는 서버에서만</b> 씁니다.</p>
 </div>
 
 <script>
 (function(){
-  var svcCx=[120,285,450,615,780];
   var FLOWS={
-    db:{svc:0,steps:["supabase-js가 select 요청 생성 (anon key 첨부)","Kong 게이트웨이 도착 → 키/인증 확인","PostgREST로 라우팅","PostgreSQL에서 RLS 검사 (이 유저가 이 행을 봐도 되나?)","허용된 행만 JSON으로 반환 ↩"]},
-    auth:{svc:1,steps:["supabase-js가 signInWithPassword 호출","Kong 게이트웨이 도착","Auth(GoTrue)로 라우팅","auth.users에서 검증 → JWT 토큰 발급","세션 토큰을 클라이언트로 반환 ↩"]},
-    realtime:{svc:2,steps:["supabase-js가 채널 구독 (WebSocket)","Kong 게이트웨이 도착","Realtime 서버와 연결 수립","Postgres WAL(변경 로그)을 실시간 감시","변경이 생기면 즉시 push ↩ (연결 유지)"]},
-    storage:{svc:3,steps:["supabase-js가 upload()로 파일 전송","Kong 게이트웨이 도착","Storage API로 라우팅","버킷 RLS 정책 검사 + S3에 저장","파일 URL을 반환 ↩"]},
-    edge:{svc:4,steps:["supabase-js가 functions.invoke() 호출","Kong 게이트웨이 도착","Edge Function(Deno) 실행","필요 시 PostgreSQL 접근","실행 결과를 반환 ↩"]}
+    api:{lane:"lane-api",badge:"b-api",roads:["r-a1","r-a2","r-a3"],
+      pts:[[165,58],[165,175],[165,294],[165,442]],
+      steps:["supabase-js가 요청 생성 (anon 키 첨부)","Kong 게이트웨이 도착 → 키 확인 후 라우팅","해당 API 서비스가 처리 (PostgREST 등)","PostgreSQL에서 RLS 검사 (이 유저가 봐도 되나?)","허용된 데이터만 반환 ↩"]},
+    sql:{lane:"lane-sql",badge:"b-sql",roads:["r-s1"],
+      pts:[[480,58],[480,250],[480,442]],
+      steps:["대시보드 SQL Editor에서 쿼리 실행","API·서비스를 거치지 않고 DB에 직접 접속","관리자 권한 = RLS 우회 (모든 행 접근)","결과를 대시보드에 표시 ↩"]},
+    db:{lane:"lane-db",badge:"b-db",roads:["r-d1","r-d2"],
+      pts:[[795,58],[795,175],[795,442]],
+      steps:["DBeaver/서버가 연결문자열로 접속","Connection Pooler(Supavisor) 경유","DB 자격증명으로 인증 → RLS 우회하여 직접 접근","쿼리 결과 반환 ↩"]}
   };
-  var type="db";
+  var m="api";
   var packet=document.getElementById("packet");
   var stepsEl=document.getElementById("steps");
   var sendBtn=document.getElementById("send");
-  var rls=document.getElementById("rls");
   var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
   var running=false;
 
-  function highlightSvc(i){
-    for(var k=0;k<5;k++){document.getElementById("svc"+k).classList.toggle("on",k===i);}
-    ["r-k0","r-k1","r-k2","r-k3","r-k4"].forEach(function(id,k){document.getElementById(id).classList.toggle("on",k===i);});
-    ["r-p0","r-p1","r-p2","r-p3","r-p4"].forEach(function(id,k){document.getElementById(id).classList.toggle("on",k===i);});
-    document.getElementById("r-ck").classList.add("on");
+  function allRoads(){return ["r-a1","r-a2","r-a3","r-s1","r-d1","r-d2"];}
+  function highlight(){
+    ["lane-api","lane-sql","lane-db"].forEach(function(id){document.getElementById(id).classList.toggle("on",id===FLOWS[m].lane);});
+    allRoads().forEach(function(id){document.getElementById(id).classList.remove("on");});
+    FLOWS[m].roads.forEach(function(id){document.getElementById(id).classList.add("on");});
+    ["b-api","b-sql","b-db"].forEach(function(id){document.getElementById(id).classList.remove("show");});
   }
   function renderSteps(){
-    var s=FLOWS[type].steps;stepsEl.innerHTML="";
-    for(var i=0;i<s.length;i++){
-      var li=document.createElement("li");
-      li.innerHTML='<span class="n">'+(i+1)+'</span><span>'+s[i]+'</span>';
-      stepsEl.appendChild(li);
-    }
+    var s=FLOWS[m].steps;stepsEl.innerHTML="";
+    for(var i=0;i<s.length;i++){var li=document.createElement("li");li.innerHTML='<span class="n">'+(i+1)+'</span><span>'+s[i]+'</span>';stepsEl.appendChild(li);}
   }
-  function setActive(i){
-    var lis=stepsEl.children;
-    for(var k=0;k<lis.length;k++){lis[k].classList.toggle("active",k===i);lis[k].classList.toggle("done",k<i);}
-  }
+  function setActive(i){var l=stepsEl.children;for(var k=0;k<l.length;k++){l[k].classList.toggle("active",k===i);l[k].classList.toggle("done",k<i);}}
   function select(t){
-    type=t;
-    document.querySelectorAll(".req").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.type===t?"true":"false");});
-    highlightSvc(FLOWS[t].svc);renderSteps();rls.classList.remove("show");
-    packet.setAttribute("opacity","0");
+    m=t;document.querySelectorAll(".req").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.m===t?"true":"false");});
+    highlight();renderSteps();var p=FLOWS[t].pts[0];packet.setAttribute("cx",p[0]);packet.setAttribute("cy",p[1]);packet.setAttribute("opacity","0");
   }
-  document.querySelectorAll(".req").forEach(function(b){b.addEventListener("click",function(){if(!running)select(b.dataset.type);});});
+  document.querySelectorAll(".req").forEach(function(b){b.addEventListener("click",function(){if(!running)select(b.dataset.m);});});
 
   function move(x,y){packet.setAttribute("cx",x);packet.setAttribute("cy",y);}
-  function tween(x0,y0,x1,y1,dur){
-    return new Promise(function(res){
-      if(reduce||dur<=0){move(x1,y1);setTimeout(res,220);return;}
-      var t0=null;
-      function frame(ts){
-        if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/dur);var e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
-        move(x0+(x1-x0)*e,y0+(y1-y0)*e);
-        if(p<1)requestAnimationFrame(frame);else res();
-      }
-      requestAnimationFrame(frame);
-    });
-  }
+  function tween(a,b,dur){return new Promise(function(res){
+    if(reduce||dur<=0){move(b[0],b[1]);setTimeout(res,200);return;}
+    var t0=null;function fr(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/dur);var e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;move(a[0]+(b[0]-a[0])*e,a[1]+(b[1]-a[1])*e);if(p<1)requestAnimationFrame(fr);else res();}
+    requestAnimationFrame(fr);});}
   function wait(ms){return new Promise(function(r){setTimeout(r,ms);});}
 
   async function run(){
     if(running)return;running=true;sendBtn.disabled=true;
-    var cx=svcCx[FLOWS[type].svc];
-    rls.classList.remove("show");
+    var f=FLOWS[m],pts=f.pts;
+    document.getElementById(f.badge).classList.remove("show");
     packet.setAttribute("fill","var(--amber)");packet.setAttribute("opacity","1");
-    move(450,60);setActive(0);await wait(reduce?300:650);
-    await tween(450,60,450,150,600);setActive(1);await wait(reduce?250:450);
-    await tween(450,150,cx,290,650);setActive(2);await wait(reduce?250:450);
-    await tween(cx,290,cx,445,600);setActive(3);
-    if(FLOWS[type].svc!==2){rls.classList.add("show");}
-    await wait(reduce?350:750);
+    move(pts[0][0],pts[0][1]);setActive(0);await wait(reduce?300:600);
+    for(var i=1;i<pts.length;i++){await tween(pts[i-1],pts[i],560);setActive(i);await wait(reduce?250:420);}
+    document.getElementById(f.badge).classList.add("show");await wait(reduce?350:700);
     packet.setAttribute("fill","var(--green)");
-    await tween(cx,445,cx,290,500);
-    await tween(cx,290,450,150,500);
-    await tween(450,150,450,60,500);setActive(4);
-    var lis=stepsEl.children;lis[4].classList.add("done");lis[4].classList.remove("active");
-    await wait(400);
-    running=false;sendBtn.disabled=false;
+    for(var j=pts.length-1;j>0;j--){await tween(pts[j],pts[j-1],460);}
+    setActive(f.steps.length-1);
+    var l=stepsEl.children;l[f.steps.length-1].classList.add("done");l[f.steps.length-1].classList.remove("active");
+    await wait(380);running=false;sendBtn.disabled=false;
   }
   sendBtn.addEventListener("click",run);
-
-  select("db");
+  select("api");
 })();
 </script>
