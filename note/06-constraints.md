@@ -67,3 +67,31 @@ insert into demo_unique (email) values ('a@x.com');  -- OK
 insert into demo_unique (email) values (null);
 insert into demo_unique (email) values (null);       -- null 두 개 OK(예외)
 ```
+
+---
+
+## 24강 · primary key (unique와의 차이)
+
+![24강](../image/24-primary-key.svg)
+
+- **`primary key` = `unique` + `not null` + 테이블당 1개 + 그 행의 대표 식별자.**
+- 중복 금지 + null 금지가 자동 적용 → 한 컬럼이 두 종류 에러를 다 낼 수 있음(중복=unique 위반, null=not-null 위반).
+
+| 항목 | `unique` | `primary key` |
+|---|---|---|
+| 중복 | 금지 | 금지 |
+| null | 여러 개 허용 | **금지** |
+| 개수 | 여러 개 가능 | **테이블당 1개** |
+| 역할 | 값이 유일 | 그 행의 **대표 식별자** |
+
+- 실무: 거의 모든 테이블에 `id` 컬럼을 primary key로. (이 id를 자동 증가시키는 게 7부 identity)
+
+```sql
+create table demo_pk (
+    id    bigint primary key,
+    email text
+);
+insert into demo_pk (id, email) values (1, 'a@x.com');  -- OK
+-- (1, ...)     → 중복 거부
+-- (null, ...)  → null 거부
+```
