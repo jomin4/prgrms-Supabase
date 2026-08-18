@@ -6,6 +6,10 @@
 > 시각화 → 개념 설명 → 직접 타이핑/실행 → 반복 하는 방식으로 학습하며,
 > 각 챕터를 마칠 때마다 원격에 반영합니다. (성장형 학습 프로젝트)
 
+## 🖱️ 인터랙티브 시각화
+
+- **[viz/supabase-request-flow.html](viz/supabase-request-flow.html)** — 클라이언트 요청이 Supabase 아키텍처(Kong→서비스→PostgreSQL)를 통과하는 과정을 애니메이션으로 보여주는 excalidraw 스타일 다이어그램. (요청 종류 선택 → 요청 보내기)
+
 ## 🗺️ 로드맵
 
 강의 완주 후 Supabase를 제대로 익히고 최종 프로젝트까지 가는 전체 계획: **[CURRICULUM.md](CURRICULUM.md)**
