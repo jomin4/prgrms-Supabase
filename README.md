@@ -22,7 +22,7 @@
 | 5부 | 18강 | 날짜/시간 타입 (`timestamp`, `timestamptz`) | ✅ |
 | 5부 | 19강 | `boolean` 타입 | ✅ |
 | 5부 | 20강 | `uuid` 타입 | ✅ |
-| 6부 | 21강 | 제약조건이란? | ⬜ |
+| 6부 | 21강 | 제약조건이란? | ✅ |
 | 6부 | 22강 | `not null` | ⬜ |
 | 6부 | 23강 | `unique` | ⬜ |
 | 6부 | 24강 | `primary key` | ⬜ |
@@ -47,4 +47,4 @@ prgrms-Supabase/
 각 강은 세 종류로 기록됩니다:
 - **sql/** — 실제로 타이핑·실행한 SQL (`NN-주제.sql`)
 - **image/** — 개념을 시각화한 그림 (`NN-주제.svg`, GitHub에서 바로 렌더링)
-- **note/** — 부 단위로 묶은 학습 노트 ([4부](note/04-table-basics.md) · [5부](note/05-types.md))
+- **note/** — 부 단위로 묶은 학습 노트 ([4부](note/04-table-basics.md) · [5부](note/05-types.md) · [6부](note/06-constraints.md))
