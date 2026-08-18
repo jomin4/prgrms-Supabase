@@ -95,3 +95,23 @@ insert into demo_pk (id, email) values (1, 'a@x.com');  -- OK
 -- (1, ...)     → 중복 거부
 -- (null, ...)  → null 거부
 ```
+
+---
+
+## 25강 · default / default now()
+
+![25강](../image/25-default.svg)
+
+- `default 값` = insert에서 컬럼을 **생략하면 자동으로 채워지는 기본값**.
+- `default now()` = 생략 시 **현재 시각** → `created_at` 국룰 패턴.
+- ⚠️ **작동 조건:** 컬럼을 "생략"했을 때만. **명시적 `null`을 넣으면 null**이 들어감(default 무시, not null이면 에러).
+- 흔한 default: `now()`, `true`/`false`, `0`, `gen_random_uuid()`(20강에서 이미 씀).
+
+```sql
+create table demo_default (
+    id         bigint,
+    is_active  boolean     default true,
+    created_at timestamptz default now()
+);
+insert into demo_default (id) values (1);  -- is_active=true, created_at=현재시각 자동
+```
