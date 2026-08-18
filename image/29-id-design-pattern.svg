@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="340" viewBox="0 0 680 340" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="338" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="38" font-size="17" font-weight="600" fill="#2C2C2A">29강 · id column 설계 패턴</text>
+
+  <rect x="40" y="58" width="290" height="182" rx="10" fill="#E1F5EE" stroke="#0F6E56"/>
+  <text x="60" y="86" font-size="14" font-weight="500" fill="#085041">A · bigint identity</text>
+  <text x="60" y="112" font-size="12" fill="#0F6E56">id bigint generated</text>
+  <text x="60" y="130" font-size="12" fill="#0F6E56">always as identity primary key</text>
+  <text x="60" y="160" font-size="12" fill="#0F6E56">→ 순차 · 작고 빠름</text>
+  <text x="60" y="180" font-size="12" fill="#0F6E56">→ 내부 PK 기본값</text>
+  <text x="60" y="208" font-size="12" fill="#993C1D">주의: 번호 예측 가능</text>
+
+  <rect x="350" y="58" width="290" height="182" rx="10" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="370" y="86" font-size="14" font-weight="500" fill="#3C3489">B · uuid</text>
+  <text x="370" y="112" font-size="12" fill="#534AB7">id uuid default</text>
+  <text x="370" y="130" font-size="12" fill="#534AB7">gen_random_uuid() primary key</text>
+  <text x="370" y="160" font-size="12" fill="#534AB7">→ 예측 불가 · 분산</text>
+  <text x="370" y="180" font-size="12" fill="#534AB7">→ 외부 노출 · 연동</text>
+  <text x="370" y="208" font-size="12" fill="#993C1D">주의: 큼(16B) · 순서 없음</text>
+
+  <rect x="40" y="256" width="600" height="64" rx="8" fill="#E6F1FB" stroke="#378ADD"/>
+  <text x="340" y="282" font-size="14" font-weight="500" fill="#0C447C" text-anchor="middle">실무: 내부 PK는 bigint identity · 외부 노출/연동엔 uuid</text>
+  <text x="340" y="304" font-size="12" fill="#185FA5" text-anchor="middle">Supabase는 auth.users.id(uuid)와 연결 (8강 auth_user_id uuid)</text>
+</svg>

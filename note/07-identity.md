@@ -1,4 +1,4 @@
-# 7부 · identity와 자동 증가 (27강 ~ 29강)
+# 7부 · identity와 자동 증가 (27강 ~ 29강) ✅ 완료
 
 > 지금까지 id를 손으로 1, 2 넣던 걸 DB가 자동으로 매기게 하는 기능. 24강 primary key와 합쳐 실무 id 컬럼을 완성한다.
 
@@ -59,3 +59,31 @@ create table demo_member (
 );
 insert into demo_member (email, name) values ('a@x.com', '홍길동');  -- id 1 자동
 ```
+
+---
+
+## 29강 · id column 설계 패턴
+
+![29강](../image/29-id-design-pattern.svg)
+
+두 패턴 중 목적에 맞게 선택:
+
+| | A · `bigint` identity | B · `uuid` |
+|---|---|---|
+| 선언 | `id bigint generated always as identity primary key` | `id uuid default gen_random_uuid() primary key` |
+| 값 | 순차 1,2,3 | 랜덤 |
+| 장점 | 작고 빠름, 내부 PK 기본 | 예측 불가, 분산·외부 노출 |
+| 단점 | 번호 예측 가능 | 큼(16B), 순서 없음 |
+
+**실무 가이드**
+- 내부 PK → `bigint` identity
+- 외부 URL/API 노출 → `uuid`
+- 로그인 사용자 연동 → `uuid` (Supabase `auth.users.id`)
+- 둘 다 필요 → bigint 내부 PK + uuid 공개 컬럼 병행
+
+- 8강 최종 SQL: `members.id`/`posts.id` = bigint identity, `auth_user_id` = uuid.
+
+---
+
+### 7부(27~29) 한 줄 요약
+> `generated always as identity`로 id를 자동 증가시키고(직접 입력 금지), `bigint ... identity primary key`가 실무 내부 PK 국룰. 외부 노출/연동엔 `uuid`. id 설계는 "내부는 bigint, 외부는 uuid"가 핵심.
