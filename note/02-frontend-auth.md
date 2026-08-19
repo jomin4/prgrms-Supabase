@@ -93,4 +93,24 @@ if (error) { alert("회원가입 실패: " + error.message); return; }
 - access_token은 짧게(탈취 대비), 만료되면 refresh_token으로 자동 갱신.
 - 비유: 유저 계정=헬스장 회원등록(영구) / 세션=오늘 입장 손목밴드(로그인=받기, 로그아웃=반납).
 
-## 6~7강 · 카카오 소셜 로그인 (예정)
+## 6·7강 · 카카오 소셜 로그인 (OAuth)
+
+![6·7강](../image/06-kakao-oauth-flow.svg)
+
+- **소셜 로그인 = OAuth 2.0.** 비번을 앱에 안 주고 카카오가 신원을 보증. 결과는 이메일 로그인과 **똑같은 JWT 세션**.
+- **6강 설정:**
+  - 카카오 개발자(developers.kakao.com): 앱 생성 → REST API 키(=client id) 복사 → 카카오 로그인 활성화 → **Redirect URI** = `https://<ref>.supabase.co/auth/v1/callback` → 동의항목(닉네임/이메일) → 보안에서 **Client Secret** 생성.
+  - Supabase: Authentication → Providers → **Kakao** → Enable + REST API 키 + Client Secret 입력 → Save.
+- **7강 호출:**
+  ```js
+  await supabase.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: { redirectTo: window.location.href.split('#')[0] }
+  });
+  ```
+- **흐름(그림):** ① signInWithOAuth → ② 카카오 로그인 페이지 이동 → (사용자 로그인·동의) → ③ authorization code가 Supabase 콜백으로 → ④ code↔token 교환·유저정보 → ⑤ auth.users 생성 + JWT 세션 → 앱으로 복귀.
+
+---
+
+### 2부 마무리
+> 회원가입(생성)·로그인(인증→세션)·소셜로그인(OAuth) 모두 결국 **auth.users의 유저 + JWT 세션**으로 귀결. 세션은 클라이언트(임시), 유저는 백엔드(영구). 다음 편에서 이 유저(uuid)를 우리 members 테이블과 연결.
