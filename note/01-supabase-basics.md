@@ -50,3 +50,36 @@ Organization (결제·팀 단위)
 - 우리가 배운 것과 연결: `members`는 public, `uuid`는 auth.users.id, RLS·timestamptz 전부 이 구조 위에서 의미.
 
 **출처:** [Architecture Docs](https://supabase.com/docs/guides/getting-started/architecture) · [supabase/supabase](https://github.com/supabase/supabase)
+
+> 🖱️ 인터랙티브: [viz/supabase-request-flow.html](../viz/supabase-request-flow.html) — 요청이 Kong→서비스→PostgreSQL을 통과하는 흐름 + 3가지 접근 경로.
+
+---
+
+## 2강 · 오거니제이션·프로젝트 생성 & 연결
+
+- **Organization**(결제·팀 단위) 안에 **Project**(전용 PostgreSQL + 서비스 한 벌). 내 프로젝트 = `prgms-supabase`, ref `whwhgggqpyqrtetlwqrt`, 리전 서울.
+
+### 접근 3경로 (누가 어떻게 붙나)
+| 경로 | 프로토콜/주소 | RLS |
+|---|---|---|
+| **SQL Editor**(대시보드) | 관리자 직접 | 🟠 우회 |
+| **supabase-js**(앱) | HTTPS `…supabase.co` + anon 키 + JWT | 🟢 적용 |
+| **DB 툴**(DBeaver/서버) | Postgres TCP, Connection Pooler(Supavisor) | 🟠 우회 |
+
+### 실제 주소·포트 (DNS 조회로 확인함)
+| | 클라이언트 앱 | DB 툴 |
+|---|---|---|
+| 프로토콜 | HTTP(S)/WSS | PostgreSQL TCP |
+| 주소 | `<ref>.supabase.co` (→ Cloudflare) | `db.<ref>.supabase.co`(IPv6) 또는 `aws-0-ap-northeast-2.pooler.supabase.com`(IPv4) |
+| 포트 | 443 | 5432(session/direct) · 6543(transaction) |
+| 인증 | apikey(anon) + JWT | DB user + password |
+
+- Direct(`db.<ref>`)는 **IPv6 전용** → IPv4 네트워크는 **Session Pooler** 사용(강의 권장). pooler user는 `postgres.<ref>`.
+
+### 키 2종 (보안 핵심)
+- **publishable(anon)** = "어느 프로젝트+기본 역할" · **공개 OK**(RLS가 보호) · 브라우저용.
+- **secret(service_role)** = **RLS 우회 전권** · 서버 전용 · **절대 노출 금지**.
+
+> 🖱️ 인터랙티브: [viz/supabase-auth-flow.html](../viz/supabase-auth-flow.html) — 클라이언트/백엔드 영역 분리 + 클릭 drill-down으로 URL·anon키·JWT·헤더·RLS 상세.
+
+> 실습: 프로젝트 생성은 이미 완료(prgms-supabase). Connect 팝업에서 3가지 연결 방식 확인.
