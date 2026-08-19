@@ -70,5 +70,27 @@ if (error) { alert("회원가입 실패: " + error.message); return; }
 - 겪은 것: CodePen은 별도 Run 없음(저장=실행), Console 닫으면 프리뷰(폼) 보임, HTML 폼은 HTML 패널에.
 - ✅ 회원가입 성공 → Authentication → Users에 uuid로 유저 생성 확인. 이 uuid가 members 연결 열쇠.
 
-## 5강 · 로그인 (예정)
+## 5강 · 로그인 (signInWithPassword)
+
+![5강](../image/05-login-flow.svg)
+
+- `auth.signInWithPassword({ email, password })` → 성공 시 `data.session`(access_token JWT + refresh_token)을 supabase-js가 **localStorage에 자동 저장** → 로그인 상태.
+- 관련: `getUser()`(현재 유저), `signOut()`(세션 삭제), `onAuthStateChange()`(상태 변화 감지).
+- Email confirmation 켜져 있어 `Email not confirmed` 나면 SQL Editor에서:
+  `update auth.users set email_confirmed_at = now() where email = '...';`
+
+### 🔑 세션(Session) vs 유저 계정(User) — 핵심 구분
+
+| | 유저 계정 (User) | 세션 (Session) |
+|---|---|---|
+| 사는 곳 | auth.users (백엔드 DB) | 브라우저 localStorage (클라이언트) |
+| 내용 | uuid, email, 비번해시 | access_token(JWT, ~1h) + refresh_token |
+| 생성 | 회원가입 | 로그인 |
+| 삭제 | 탈퇴(Delete user) | 로그아웃 / 만료 |
+| 대시보드 | Users에 보임 | 안 보임 |
+
+- **로그아웃 = 세션(토큰)만 삭제 → 유저 계정은 그대로.** 그래서 로그아웃해도 대시보드 Users에 회원이 남아있음(≠ 회원 탈퇴).
+- access_token은 짧게(탈취 대비), 만료되면 refresh_token으로 자동 갱신.
+- 비유: 유저 계정=헬스장 회원등록(영구) / 세션=오늘 입장 손목밴드(로그인=받기, 로그아웃=반납).
+
 ## 6~7강 · 카카오 소셜 로그인 (예정)

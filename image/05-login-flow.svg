@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="250" viewBox="0 0 680 250" font-family="'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif">
+  <rect x="1" y="1" width="678" height="248" rx="14" fill="#FCFBF8" stroke="#E5E3DC"/>
+  <text x="40" y="32" font-size="16" font-weight="600" fill="#2C2C2A">5강 · 로그인 (signInWithPassword)</text>
+
+  <rect x="40" y="50" width="140" height="80" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="110" y="80" font-size="13" font-weight="500" fill="#2C2C2A" text-anchor="middle">① 폼 제출</text>
+  <text x="110" y="101" font-size="11" fill="#5F5E5A" text-anchor="middle">email</text>
+  <text x="110" y="119" font-size="11" fill="#5F5E5A" text-anchor="middle">password</text>
+  <line x1="182" y1="90" x2="190" y2="90" stroke="#888780" stroke-width="2"/><path d="M188,86 L194,90 L188,94 Z" fill="#888780"/>
+
+  <rect x="193" y="50" width="140" height="80" rx="8" fill="#EEEDFE" stroke="#534AB7"/>
+  <text x="263" y="80" font-size="13" font-weight="500" fill="#3C3489" text-anchor="middle">② signIn</text>
+  <text x="263" y="101" font-size="11" fill="#534AB7" text-anchor="middle">WithPassword()</text>
+  <text x="263" y="119" font-size="11" fill="#534AB7" text-anchor="middle">supabase.auth</text>
+  <line x1="335" y1="90" x2="343" y2="90" stroke="#888780" stroke-width="2"/><path d="M341,86 L347,90 L341,94 Z" fill="#888780"/>
+
+  <rect x="346" y="50" width="140" height="80" rx="8" fill="#E1F5EE" stroke="#0F6E56"/>
+  <text x="416" y="80" font-size="13" font-weight="500" fill="#085041" text-anchor="middle">③ Auth 검증</text>
+  <text x="416" y="101" font-size="11" fill="#0F6E56" text-anchor="middle">auth.users 대조</text>
+  <text x="416" y="119" font-size="11" fill="#0F6E56" text-anchor="middle">비번 확인</text>
+  <line x1="488" y1="90" x2="496" y2="90" stroke="#888780" stroke-width="2"/><path d="M494,86 L500,90 L494,94 Z" fill="#888780"/>
+
+  <rect x="499" y="50" width="140" height="80" rx="8" fill="#EAF3DE" stroke="#639922"/>
+  <text x="569" y="80" font-size="13" font-weight="500" fill="#173404" text-anchor="middle">④ JWT 세션 발급</text>
+  <text x="569" y="101" font-size="11" fill="#3B6D11" text-anchor="middle">localStorage에</text>
+  <text x="569" y="119" font-size="11" fill="#3B6D11" text-anchor="middle">자동 저장</text>
+
+  <rect x="40" y="152" width="599" height="72" rx="8" fill="#E6F1FB" stroke="#378ADD"/>
+  <text x="340" y="176" font-size="13" font-weight="500" fill="#0C447C" text-anchor="middle">회원가입 = 유저 "생성" / 로그인 = 유저 "인증" 후 JWT 세션 받기</text>
+  <text x="340" y="197" font-size="11" fill="#185FA5" text-anchor="middle">세션(access_token+refresh_token)이 저장되면 이후 요청에 유저 JWT 자동 첨부</text>
+  <text x="340" y="215" font-size="11" fill="#185FA5" text-anchor="middle">로그아웃 = 세션(토큰)만 삭제 · 유저 계정(auth.users)은 영구 (≠ 탈퇴)</text>
+</svg>
