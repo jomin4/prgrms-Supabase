@@ -1,9 +1,8 @@
 <style>
   :root{
-    --bg:#FBFAF6; --panel:#FFFFFF; --panel2:#F4F1E8;
-    --ink:#26262B; --muted:#6E6A5E; --line:#D9D4C6;
-    --accent:#1971C2; --amber:#E8590C; --green:#2B8A3E;
-    --violet:#6741D9; --teal:#0C8599; --pink:#C2255C; --red:#E03131;
+    --bg:#FBFAF6; --panel:#FFFFFF; --panel2:#F4F1E8; --ink:#26262B; --muted:#6E6A5E; --line:#D9D4C6;
+    --accent:#1971C2; --amber:#E8590C; --green:#2B8A3E; --violet:#6741D9; --teal:#0C8599; --pink:#C2255C; --red:#E03131;
+    --clientbg:#EAF2FB; --backendbg:#EAF5EE;
     --hand:'Segoe Print','Bradley Hand','Comic Sans MS','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
     --ui:'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;
     --mono:'Cascadia Code','Consolas','SF Mono',ui-monospace,monospace;
@@ -11,16 +10,18 @@
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
     --bg:#191A1E; --panel:#232429; --panel2:#2A2B31; --ink:#ECEAE2; --muted:#9C988C; --line:#3B3C44;
     --accent:#4DABF7; --amber:#FFA94D; --green:#69DB7C; --violet:#B197FC; --teal:#3BC9DB; --pink:#F783AC; --red:#FF8787;
+    --clientbg:#1E2733; --backendbg:#1B2A22;
   }}
   :root[data-theme="dark"]{
     --bg:#191A1E; --panel:#232429; --panel2:#2A2B31; --ink:#ECEAE2; --muted:#9C988C; --line:#3B3C44;
     --accent:#4DABF7; --amber:#FFA94D; --green:#69DB7C; --violet:#B197FC; --teal:#3BC9DB; --pink:#F783AC; --red:#FF8787;
+    --clientbg:#1E2733; --backendbg:#1B2A22;
   }
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-  .wrap{background:var(--bg);color:var(--ink);font-family:var(--ui);padding:20px;border-radius:14px;line-height:1.6}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .wrap{background:var(--bg);color:var(--ink);font-family:var(--ui);padding:20px;border-radius:14px;line-height:1.55}
   .head h1{font-family:var(--hand);font-size:25px;font-weight:400;margin:0 0 2px}
   .head p{margin:0 0 14px;color:var(--muted);font-size:14px}
-  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:8px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
   .seg{display:inline-flex;border:2px solid var(--line);border-radius:12px;overflow:hidden}
   .seg button{font-family:var(--hand);font-size:15px;background:var(--panel);color:var(--ink);border:0;padding:8px 15px;cursor:pointer}
   .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
@@ -30,33 +31,56 @@
   #send:active{transform:translate(1px,2px);box-shadow:1px 1px 0 rgba(0,0,0,.18)}
   #send[disabled]{opacity:.5;cursor:default;box-shadow:none}
   button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-  .state{font-size:13px;color:var(--muted);margin:0 0 14px}
-  .pipe{display:grid;gap:12px}
-  .stage{border:2px solid var(--line);border-left-width:6px;border-radius:12px;background:var(--panel);padding:12px 14px;transition:border-color .2s,background .2s}
-  .stage.on{border-color:var(--accent);background:var(--panel2)}
-  .stage.done{border-left-color:var(--green)}
-  .stage h3{margin:0 0 4px;font-family:var(--hand);font-size:17px;font-weight:400;display:flex;gap:10px;align-items:center}
-  .stage h3 .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);font-size:14px;flex:none}
-  .stage.on h3 .n{border-color:var(--accent);color:var(--accent)}
-  .stage.done h3 .n{border-color:var(--green);color:var(--green)}
-  .stage .q{color:var(--muted);font-size:13px;font-family:var(--ui)}
-  .box{font-family:var(--mono);font-size:12.5px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-top:8px;overflow-x:auto;white-space:pre;line-height:1.55}
+  .map{display:grid;grid-template-columns:1fr 92px 1fr;gap:0;align-items:stretch}
+  .zone{border:2px dashed var(--line);border-radius:14px;padding:12px}
+  .zone.client{background:var(--clientbg)} .zone.backend{background:var(--backendbg)}
+  .zone > .ztitle{font-family:var(--hand);font-size:16px;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+  .ztitle .dot{width:10px;height:10px;border-radius:50%}
+  .client .dot{background:var(--accent)} .backend .dot{background:var(--green)}
+  .card{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:9px 10px;margin-bottom:10px}
+  .card:last-child{margin-bottom:0}
+  .card > .ct{font-size:12px;color:var(--muted);margin-bottom:7px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .hot{font-family:var(--ui);font-size:13px;background:var(--panel2);color:var(--ink);border:2px solid var(--line);
+    border-radius:9px;padding:6px 10px;cursor:pointer;transition:transform .07s,border-color .15s,box-shadow .15s;text-align:left}
+  .hot:hover{transform:translateY(-1px)}
+  .hot .mm{font-family:var(--mono);font-size:11.5px;color:var(--muted);display:block;margin-top:1px}
+  .hot[data-c=accent]{border-color:var(--accent)} .hot[data-c=violet]{border-color:var(--violet)}
+  .hot[data-c=teal]{border-color:var(--teal)} .hot[data-c=green]{border-color:var(--green)}
+  .hot[data-c=amber]{border-color:var(--amber)} .hot[data-c=pink]{border-color:var(--pink)}
+  .hot.sel{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+  .hot.dim{opacity:.5}
+  .hot.flash{box-shadow:0 0 0 4px color-mix(in srgb,var(--amber) 55%,transparent)}
+  .mid{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;position:relative}
+  .flow{font-family:var(--hand);font-size:12px;text-align:center;color:var(--muted)}
+  .arrow{width:100%;height:0;border-top:2.5px solid var(--line);position:relative;margin:2px 0}
+  .arrow.req::after{content:"▶";position:absolute;right:-2px;top:-10px;color:var(--accent)}
+  .arrow.res::before{content:"◀";position:absolute;left:-2px;top:-10px;color:var(--green)}
+  .arrow.req.flash{border-color:var(--accent)} .arrow.res.flash{border-color:var(--green)}
+  .midchip{cursor:pointer;background:var(--panel);border:2px solid var(--line);border-radius:9px;padding:5px 8px;font-size:12px;font-family:var(--hand)}
+  .midchip.req{border-color:var(--accent)} .midchip.res{border-color:var(--green)}
+  .detail{margin-top:14px;border:2px solid var(--line);border-radius:12px;background:var(--panel);padding:14px 16px;min-height:120px}
+  .detail h3{margin:0 0 4px;font-family:var(--hand);font-size:18px;font-weight:400}
+  .detail .sub{color:var(--muted);font-size:13px;margin:0 0 10px}
+  .detail p{margin:8px 0;font-size:14px}
+  .box{font-family:var(--mono);font-size:12.5px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0;overflow-x:auto;white-space:pre;line-height:1.6}
   .k{color:var(--violet)} .v{color:var(--teal)} .c{color:var(--muted)} .hl{color:var(--amber)}
-  .tag{display:inline-block;font-family:var(--ui);font-size:11.5px;padding:1px 8px;border-radius:20px;border:1px solid;margin-left:6px;vertical-align:middle}
-  .tag.ok{color:var(--green);border-color:var(--green)} .tag.no{color:var(--amber);border-color:var(--amber)}
-  .jwt{margin-top:8px;font-family:var(--mono);font-size:12px;word-break:break-all;line-height:1.7}
+  .jwt{font-family:var(--mono);font-size:12px;word-break:break-all;line-height:1.7;margin:8px 0}
   .jwt .h{color:var(--red)} .jwt .p{color:var(--violet)} .jwt .s{color:var(--teal)}
-  .result{margin-top:8px;font-size:14px}
-  .note{margin-top:14px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
-  @media (prefers-reduced-motion:reduce){.stage,#send{transition:none}}
+  .idle{color:var(--muted);font-size:14px}
+  table.cl{border-collapse:collapse;margin:8px 0;font-size:13px}
+  table.cl td{border:1px solid var(--line);padding:4px 9px}
+  table.cl td:first-child{font-family:var(--mono);color:var(--violet)}
+  @media (max-width:680px){.map{grid-template-columns:1fr}.mid{flex-direction:row;padding:6px 0}.arrow{display:none}}
+  @media (prefers-reduced-motion:reduce){.hot,#send{transition:none}}
 </style>
 
-<h2 class="sr-only">클라이언트가 수집한 URL과 anon 키가 어디에 저장되고, HTTP 헤더로 어떻게 실려 Supabase에 전달되어 인증(JWT 서명 검증)과 인가(RLS)를 거쳐 데이터 접근이 결정되는지 보여주는 인터랙티브 다이어그램. 로그인 여부를 바꾸면 저장소와 헤더, 접근 결과가 달라진다.</h2>
+<h2 class="sr-only">클라이언트 영역과 백엔드(Supabase) 영역을 나눈 아키텍처 지도. 클라이언트의 localStorage에 URL·anon 키·JWT가 있고, 요청 헤더로 실려 백엔드의 Kong·Auth·PostgREST·PostgreSQL로 전달되며 인증과 인가를 거친다. 각 요소를 클릭하면 자세한 값과 설명이 아래 패널에 나온다. 로그인 여부 토글로 내용이 바뀐다.</h2>
 
 <div class="wrap">
   <div class="head">
-    <h1>인증 &amp; 인가는 어떻게 흐르는가</h1>
-    <p>클라이언트가 모은 <b>URL·anon 키·JWT</b>가 어디 저장되고, 어떻게 실려 Supabase의 <b>인증→인가</b>를 통과하는지.</p>
+    <h1>인증 &amp; 인가 아키텍처 지도</h1>
+    <p>클라이언트 ↔ 백엔드로 값이 오가는 구조. <b>박스를 클릭하면</b> 아래에 자세한 값·설명이 펼쳐집니다.</p>
   </div>
 
   <div class="controls">
@@ -64,115 +88,124 @@
       <button id="t-anon" aria-pressed="true">비로그인 (anon)</button>
       <button id="t-user" aria-pressed="false">로그인 (홍길동)</button>
     </div>
-    <button id="send">▶ 요청 보내기 (posts 조회)</button>
-  </div>
-  <p class="state" id="state"></p>
-
-  <div class="pipe">
-    <div class="stage" id="s0">
-      <h3><span class="n">1</span>브라우저 저장소 <span class="q">— 무엇을 어디에 모아두나</span></h3>
-      <div class="box" id="b0"></div>
-    </div>
-    <div class="stage" id="s1">
-      <h3><span class="n">2</span>요청 헤더 <span class="q">— supabase-js가 매 요청에 자동 첨부</span></h3>
-      <div class="box" id="b1"></div>
-    </div>
-    <div class="stage" id="s2">
-      <h3><span class="n">3</span>인증 (Authentication) <span class="q">— "너 누구야?"</span></h3>
-      <div class="box" id="b2"></div>
-      <div class="jwt" id="jwt"></div>
-    </div>
-    <div class="stage" id="s3">
-      <h3><span class="n">4</span>인가 (Authorization) <span class="q">— "이거 봐도 돼?"</span></h3>
-      <div class="box" id="b3"></div>
-      <div class="result" id="result"></div>
-    </div>
+    <button id="send">▶ 요청 흐름 보기</button>
   </div>
 
-  <p class="note" id="note"></p>
+  <div class="map">
+    <div class="zone client">
+      <p class="ztitle"><span class="dot"></span>클라이언트 (브라우저 · CodePen)</p>
+      <div class="card">
+        <div class="ct">🗄 localStorage — 여기에 값이 저장됨</div>
+        <div class="chips">
+          <button class="hot" data-k="url" data-c="accent">Project URL<span class="mm">…supabase.co</span></button>
+          <button class="hot" data-k="anon" data-c="teal">anon 키<span class="mm">sb_publishable_…</span></button>
+          <button class="hot" id="chip-jwt" data-k="jwt" data-c="amber">유저 JWT<span class="mm">access_token</span></button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ct">📦 supabase-js — 요청을 만들어 보냄</div>
+        <div class="chips"><button class="hot" data-k="sbjs" data-c="violet">supabase.from('posts').select()</button></div>
+      </div>
+    </div>
+
+    <div class="mid">
+      <div class="flow">요청 →</div>
+      <button class="midchip req" data-k="reqhead" id="m-req">🔑 요청 헤더</button>
+      <div class="arrow req" id="ar-req"></div>
+      <div class="arrow res" id="ar-res"></div>
+      <button class="midchip res" data-k="resp" id="m-res">📄 응답</button>
+      <div class="flow">← 응답</div>
+    </div>
+
+    <div class="zone backend">
+      <p class="ztitle"><span class="dot"></span>백엔드 (Supabase)</p>
+      <div class="chips" style="flex-direction:column">
+        <button class="hot" data-k="kong" data-c="accent" id="bk-kong">① API Gateway (Kong)<span class="mm">경로로 라우팅</span></button>
+        <button class="hot" data-k="auth" data-c="violet" id="bk-auth">② Auth (GoTrue)<span class="mm">JWT 발급·검증</span></button>
+        <button class="hot" data-k="postgrest" data-c="teal" id="bk-pgr">③ PostgREST<span class="mm">REST → SQL</span></button>
+        <button class="hot" data-k="pg" data-c="green" id="bk-pg">④ PostgreSQL + RLS<span class="mm">인증·인가 판정</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail" id="detail" aria-live="polite"></div>
 </div>
 
 <script>
 (function(){
-  var REF="whwhgggqpyqrtetlwqrt";
-  var URL="https://"+REF+".supabase.co";
-  var ANON="sb_publishable_lOBnJv••••••••";
-  var loggedIn=false, running=false;
-  var $=function(id){return document.getElementById(id);};
+  var REF="whwhgggqpyqrtetlwqrt", URL="https://"+REF+".supabase.co", ANON="sb_publishable_lOBnJv••••••••";
+  var loggedIn=false, cur=null, running=false, $=function(s){return document.getElementById(s);};
 
-  function esc(s){return s;}
+  function bearer(){return loggedIn?'<span class="hl">Bearer eyJhbGciOiJIUzI1Ni…(유저 JWT)</span>':'<span class="v">Bearer '+ANON+'</span> <span class="c">// anon</span>';}
+
+  var D={
+    url:function(){return {t:"Project URL",s:"내 프로젝트의 API 주소 (내가 넣은 값)",b:
+      '<div class="box"><span class="k">SUPABASE_PROJECT_URL</span> = <span class="v">"'+URL+'"</span></div>'
+      +'<p>모든 요청은 이 주소로 갑니다. Kong이 <b>경로(path)</b>로 서비스를 구분해요:</p>'
+      +'<div class="box">'+URL+'<span class="hl">/rest/v1/…</span>   <span class="c">// DB</span>\n'+URL+'<span class="hl">/auth/v1/…</span>   <span class="c">// 로그인</span>\n'+URL+'<span class="hl">/storage/v1/…</span> <span class="c">// 파일</span></div>'};},
+    anon:function(){return {t:"anon (publishable) 키",s:"“어느 프로젝트 + 기본 역할(anon)” — 유저 신원이 아님",b:
+      '<div class="box"><span class="k">apikey</span> = <span class="v">"'+ANON+'"</span></div>'
+      +'<p>이건 <b>건물 주소 + 방문증</b> 같은 거예요. “이 프로젝트에 온 익명 방문자(anon 역할)”라는 뜻일 뿐, 특정 유저가 누구인지는 담겨있지 않습니다.</p>'
+      +'<p>🔓 <b>공개돼도 안전</b> — 데이터는 RLS가 지키니까요. (반대로 <span class="hl">secret(service_role)</span> 키는 RLS를 우회하므로 절대 브라우저에 두면 안 됨.)</p>'};},
+    jwt:function(){ if(!loggedIn) return {t:"유저 JWT",s:"아직 없음 — 로그인해야 생깁니다",b:
+      '<p>지금은 <b>비로그인</b> 상태라 유저 JWT가 없어요. 위에서 <b>‘로그인 (홍길동)’</b>을 눌러보세요.</p>'
+      +'<p>로그인(<span class="k">signInWithPassword</span>)에 성공하면 Supabase Auth가 JWT를 발급하고, supabase-js가 <span class="k">localStorage</span>에 자동 저장합니다.</p>'};
+      return {t:"유저 JWT (access_token)",s:"“어느 유저”인지 증명하는 신분증 — 로그인 시 발급",b:
+      '<div class="jwt"><span class="h">eyJhbGciOiJIUzI1NiJ9</span>.<span class="p">eyJzdWIiOiIzZjlh… </span>.<span class="s">Xq3f•••서명</span></div>'
+      +'<p>점(.)으로 나뉜 3조각 = <span class="h">헤더</span>.<span class="p">페이로드(클레임)</span>.<span class="s">서명</span></p>'
+      +'<p>페이로드(payload)에 든 클레임:</p>'
+      +'<table class="cl"><tr><td>sub</td><td>3f9a12c4-…-uuid <span class="c">→ auth.users.id (auth.uid())</span></td></tr>'
+      +'<tr><td>role</td><td>authenticated</td></tr><tr><td>email</td><td>me@example.com</td></tr>'
+      +'<tr><td>exp</td><td>만료 시각 (지나면 refresh_token으로 갱신)</td></tr></table>'
+      +'<p>🔐 <b>서명</b>은 Supabase만 아는 시크릿으로 만들어져서, 내용을 바꾸면 서명이 깨져 <b>위조가 불가능</b>합니다.</p>'};},
+    sbjs:function(){return {t:"supabase-js",s:"요청을 만들고, 인증 헤더를 자동으로 붙여주는 라이브러리",b:
+      '<div class="box"><span class="k">const</span> { data, error } = <span class="k">await</span> supabase\n  .from(<span class="v">\'posts\'</span>).select(<span class="v">\'*\'</span>);</div>'
+      +'<p>이 한 줄을 부르면 supabase-js가 알아서 <b>HTTP 요청</b>을 만들고, 저장된 <b>apikey</b>와 <b>Authorization</b> 헤더를 붙여 백엔드로 보냅니다. (가운데 <b>🔑 요청 헤더</b>를 눌러보세요.)</p>'};},
+    reqhead:function(){return {t:"요청 헤더",s:"supabase-js가 매 요청에 자동으로 붙이는 두 헤더",b:
+      '<div class="box"><span class="c">GET</span> '+URL+'<span class="hl">/rest/v1/posts?select=*</span>\n\n'
+      +'<span class="k">apikey</span>: <span class="v">'+ANON+'</span>       <span class="c">// 어느 프로젝트</span>\n'
+      +'<span class="k">Authorization</span>: '+bearer()+'   <span class="c">// 누구인가</span></div>'
+      +'<p><b>apikey</b> = 프로젝트 식별, <b>Authorization</b> = 신원 증명. '+(loggedIn?'지금은 로그인 상태라 <b>유저 JWT</b>가 실립니다.':'지금은 비로그인이라 <b>anon 키</b>가 실립니다.')+'</p>'};},
+    kong:function(){return {t:"① API Gateway (Kong)",s:"백엔드의 단일 정문",b:
+      '<p>모든 요청이 먼저 도착하는 곳. <b>경로(path)</b>를 보고 맞는 서비스로 보냅니다 (<span class="hl">/rest</span>→PostgREST, <span class="hl">/auth</span>→Auth …). apikey가 유효한지도 여기서 1차 확인.</p>'};},
+    auth:function(){return {t:"② Auth (GoTrue)",s:"신분증(JWT)을 발급하고 검증하는 곳",b:
+      '<p><b>로그인 때:</b> 이메일/비번을 확인하고 <b>JWT를 발급</b>해요 (auth.users에서 조회 → 서명해서 토큰 생성).</p>'
+      +'<p><b>이후 요청 때:</b> 실려온 JWT의 <b>서명을 검증</b> → 진짜 자기가 발급한 토큰인지 확인. 이게 바로 <b>인증(Authentication)</b>.</p>'};},
+    postgrest:function(){return {t:"③ PostgREST",s:"REST 요청을 SQL로 바꿔 실행",b:
+      '<p><span class="hl">/rest/v1/posts</span> 같은 요청을 <span class="k">select * from posts</span> SQL로 변환해 실행합니다.</p>'
+      +'<p>중요: JWT의 <span class="k">role</span> 클레임을 보고 <b>Postgres 역할</b>을 <span class="v">'+(loggedIn?'authenticated':'anon')+'</span>로 설정 → 그 역할로 쿼리가 돌아 RLS가 적용돼요.</p>'};},
+    pg:function(){return {t:"④ PostgreSQL + RLS",s:"인증된 신원으로 “뭘 봐도 되는지” 판정 (인가)",b:
+      '<p><b>인가(Authorization)</b> 단계. RLS 정책이 JWT 클레임을 이용해 행 단위로 거릅니다:</p>'
+      +'<div class="box"><span class="c">-- posts_select_policy</span>\nvisibility = <span class="v">\'PUBLIC\'</span>\n<span class="c">OR</span> author_id = <span class="hl">auth.uid()</span>   <span class="c">// = JWT의 sub</span></div>'
+      +'<p>'+(loggedIn?'홍길동의 <span class="hl">auth.uid()</span>가 본인 글의 author_id와 일치 → <b>공개글 + 본인글</b> 통과.':'유저가 없어 <span class="hl">auth.uid()</span>=null → <b>공개(PUBLIC) 글만</b> 통과.')+'</p>'};},
+    resp:function(){return {t:"응답 데이터",s:"RLS를 통과한 행만 JSON으로 돌아옴",b:
+      '<div class="box">'+(loggedIn
+        ? '[\n  { id:1, title:<span class="v">"공개 공지"</span>, visibility:<span class="v">"PUBLIC"</span> },\n  { id:7, title:<span class="v">"내 비밀 메모"</span>, visibility:<span class="hl">"PRIVATE"</span>, author:<span class="hl">"홍길동"</span> }\n]'
+        : '[\n  { id:1, title:<span class="v">"공개 공지"</span>, visibility:<span class="v">"PUBLIC"</span> }\n  <span class="c">// 비공개·남의 글은 안 보임</span>\n]')+'</div>'
+      +'<p>같은 요청이라도 <b>누구로 인증됐냐</b>에 따라 돌아오는 데이터가 달라집니다 — 이게 인증+인가의 결과예요.</p>'};}
+  };
+
   function render(){
     $("t-anon").setAttribute("aria-pressed",loggedIn?"false":"true");
     $("t-user").setAttribute("aria-pressed",loggedIn?"true":"false");
-    $("state").innerHTML = loggedIn
-      ? "지금: <b>로그인 상태</b> — signInWithPassword 성공 후, supabase-js가 <b>유저 JWT</b>를 저장소에 넣어둔 상태."
-      : "지금: <b>비로그인 상태</b> — 아직 로그인 안 함. anon 키만 가진 익명 방문자.";
-
-    // Stage 1 - storage
-    var s = '<span class="c">// localStorage (내가 넣은 값)</span>\n'
-      + '<span class="k">SUPABASE_PROJECT_URL</span> = <span class="v">"'+URL+'"</span>\n'
-      + '<span class="k">..._PUBLISHABLE_API_KEY</span> = <span class="v">"'+ANON+'"</span>  <span class="c">// anon</span>';
-    if(loggedIn){
-      s += '\n\n<span class="c">// supabase-js가 로그인 성공 시 자동 저장</span>\n'
-        + '<span class="k">sb-'+REF+'-auth-token</span> = {\n'
-        + '  <span class="k">access_token</span>: <span class="hl">"eyJhbGciOi…(JWT)"</span>,\n'
-        + '  <span class="k">refresh_token</span>: <span class="v">"v1.M8x…"</span>,\n'
-        + '  <span class="k">user</span>: { id, email, … }\n}';
-    }
-    $("b0").innerHTML=s;
-
-    // Stage 2 - headers
-    var bearer = loggedIn ? '<span class="hl">Bearer eyJhbGciOi…(유저 JWT)</span>' : '<span class="v">Bearer '+ANON+'</span> <span class="c">// anon</span>';
-    $("b1").innerHTML =
-      '<span class="c">// 모든 요청에 붙는 두 헤더</span>\n'
-      + '<span class="k">apikey</span>: <span class="v">'+ANON+'</span>   <span class="c">// 어느 프로젝트+기본 역할</span>\n'
-      + '<span class="k">Authorization</span>: '+bearer+'\n\n'
-      + '<span class="c">GET</span> '+URL+'<span class="hl">/rest/v1/posts</span>';
-
-    // Stage 3 - authentication
-    if(loggedIn){
-      $("b2").innerHTML =
-        '<span class="c">// Supabase가 JWT 서명을 검증 (위조 불가)</span>\n'
-        + '서명 확인 → <span class="v">진짜 Supabase가 발급한 토큰</span> ✓\n'
-        + '<span class="k">role</span>: <span class="hl">authenticated</span>\n'
-        + '<span class="k">sub</span>(uid): <span class="v">3f9a12c4-…-uuid</span>  <span class="c">// = auth.users.id</span>';
-      $("jwt").innerHTML='<span class="c">JWT = </span><span class="h">헤더</span>.<span class="p">페이로드(클레임)</span>.<span class="s">서명</span> &nbsp; '
-        + '<span class="c">→ 페이로드에 role·sub·email·exp가 들어있음</span>';
-    }else{
-      $("b2").innerHTML =
-        '<span class="c">// 유저 JWT 없음 → anon 키로 신원 판정</span>\n'
-        + '<span class="k">role</span>: <span class="hl">anon</span>  <span class="c">// 익명 방문자</span>\n'
-        + '<span class="k">sub</span>(uid): <span class="v">null</span>  <span class="c">// 특정 유저 아님</span>';
-      $("jwt").innerHTML='';
-    }
-
-    // Stage 4 - authorization
-    $("b3").innerHTML =
-      '<span class="c">// Postgres 역할 = role 클레임 → RLS 정책 실행</span>\n'
-      + 'posts_select_policy 검사:\n'
-      + '  visibility = <span class="v">\'PUBLIC\'</span>\n'
-      + '  <span class="c">OR</span> author_id = <span class="hl">auth.uid()</span>  <span class="c">// 내 글이면</span>';
-    $("result").innerHTML = loggedIn
-      ? '<b>결과:</b> 공개(PUBLIC) 글 <b>＋ 홍길동 본인 글</b>까지 반환 <span class="tag ok">auth.uid() 일치</span>'
-      : '<b>결과:</b> <b>공개(PUBLIC) 글만</b> 반환 <span class="tag no">본인/비공개 글 안 보임</span>';
-
-    $("note").innerHTML = "🔑 <b>apikey</b>(anon)는 <b>‘어느 프로젝트’</b>를 가리키는 건물 주소·방문증 — 공개돼도 안전. "
-      + "<b>Authorization의 JWT</b>는 <b>‘어느 유저’</b>인지 증명하는 신분증. "
-      + "인증=신분증 진위 확인, 인가=그 신분으로 뭘 볼 수 있나(RLS). 그래서 anon 키만으론 남의 글을 못 봅니다.";
-    clearActive();
+    $("chip-jwt").classList.toggle("dim",!loggedIn);
+    document.querySelectorAll(".hot,.midchip").forEach(function(b){b.classList.toggle("sel",b.dataset.k===cur);});
+    if(cur&&D[cur]){var d=D[cur]();$("detail").innerHTML='<h3>'+d.t+'</h3><p class="sub">'+d.s+'</p>'+d.b;}
+    else{$("detail").innerHTML='<p class="idle">👆 위 지도에서 <b>박스를 클릭</b>하면 여기에 자세한 값·설명이 나옵니다. 위 토글로 <b>로그인/비로그인</b>을 바꾸면 내용도 바뀌어요.</p>';}
   }
-  function clearActive(){for(var i=0;i<4;i++){$("s"+i).classList.remove("on","done");}}
-  function setStage(i){for(var k=0;k<4;k++){$("s"+k).classList.toggle("on",k===i);$("s"+k).classList.toggle("done",k<i);}}
-
+  document.querySelectorAll(".hot,.midchip").forEach(function(b){b.addEventListener("click",function(){cur=b.dataset.k;render();});});
   $("t-anon").addEventListener("click",function(){if(!running){loggedIn=false;render();}});
   $("t-user").addEventListener("click",function(){if(!running){loggedIn=true;render();}});
 
   var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
-  function wait(ms){return new Promise(function(r){setTimeout(r,reduce?Math.min(ms,150):ms);});}
+  function wait(ms){return new Promise(function(r){setTimeout(r,reduce?120:ms);});}
+  async function flash(id){var el=$(id);el.classList.add("flash");await wait(520);el.classList.remove("flash");}
   async function run(){
-    if(running)return;running=true;$("send").disabled=true;clearActive();
-    for(var i=0;i<4;i++){setStage(i);await wait(700);}
-    for(var k=0;k<4;k++){$("s"+k).classList.remove("on");$("s"+k).classList.add("done");}
+    if(running)return;running=true;$("send").disabled=true;
+    await flash("m-req");await flash("ar-req");
+    await flash("bk-kong");await flash("bk-auth");await flash("bk-pgr");await flash("bk-pg");
+    await flash("ar-res");await flash("m-res");
+    cur="resp";render();
     running=false;$("send").disabled=false;
   }
   $("send").addEventListener("click",run);
