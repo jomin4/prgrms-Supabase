@@ -1,0 +1,181 @@
+<style>
+  :root{
+    --bg:#FBFAF6; --panel:#FFFFFF; --panel2:#F4F1E8;
+    --ink:#26262B; --muted:#6E6A5E; --line:#D9D4C6;
+    --accent:#1971C2; --amber:#E8590C; --green:#2B8A3E;
+    --violet:#6741D9; --teal:#0C8599; --pink:#C2255C; --red:#E03131;
+    --hand:'Segoe Print','Bradley Hand','Comic Sans MS','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+    --ui:'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;
+    --mono:'Cascadia Code','Consolas','SF Mono',ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#191A1E; --panel:#232429; --panel2:#2A2B31; --ink:#ECEAE2; --muted:#9C988C; --line:#3B3C44;
+    --accent:#4DABF7; --amber:#FFA94D; --green:#69DB7C; --violet:#B197FC; --teal:#3BC9DB; --pink:#F783AC; --red:#FF8787;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#191A1E; --panel:#232429; --panel2:#2A2B31; --ink:#ECEAE2; --muted:#9C988C; --line:#3B3C44;
+    --accent:#4DABF7; --amber:#FFA94D; --green:#69DB7C; --violet:#B197FC; --teal:#3BC9DB; --pink:#F783AC; --red:#FF8787;
+  }
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .wrap{background:var(--bg);color:var(--ink);font-family:var(--ui);padding:20px;border-radius:14px;line-height:1.6}
+  .head h1{font-family:var(--hand);font-size:25px;font-weight:400;margin:0 0 2px}
+  .head p{margin:0 0 14px;color:var(--muted);font-size:14px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:8px}
+  .seg{display:inline-flex;border:2px solid var(--line);border-radius:12px;overflow:hidden}
+  .seg button{font-family:var(--hand);font-size:15px;background:var(--panel);color:var(--ink);border:0;padding:8px 15px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  .seg button+button{border-left:2px solid var(--line)}
+  #send{font-family:var(--hand);font-size:16px;margin-left:auto;background:var(--accent);color:#fff;border:2px solid var(--accent);
+    border-radius:12px;padding:8px 18px;cursor:pointer;box-shadow:2px 3px 0 rgba(0,0,0,.18)}
+  #send:active{transform:translate(1px,2px);box-shadow:1px 1px 0 rgba(0,0,0,.18)}
+  #send[disabled]{opacity:.5;cursor:default;box-shadow:none}
+  button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .state{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .pipe{display:grid;gap:12px}
+  .stage{border:2px solid var(--line);border-left-width:6px;border-radius:12px;background:var(--panel);padding:12px 14px;transition:border-color .2s,background .2s}
+  .stage.on{border-color:var(--accent);background:var(--panel2)}
+  .stage.done{border-left-color:var(--green)}
+  .stage h3{margin:0 0 4px;font-family:var(--hand);font-size:17px;font-weight:400;display:flex;gap:10px;align-items:center}
+  .stage h3 .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);font-size:14px;flex:none}
+  .stage.on h3 .n{border-color:var(--accent);color:var(--accent)}
+  .stage.done h3 .n{border-color:var(--green);color:var(--green)}
+  .stage .q{color:var(--muted);font-size:13px;font-family:var(--ui)}
+  .box{font-family:var(--mono);font-size:12.5px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin-top:8px;overflow-x:auto;white-space:pre;line-height:1.55}
+  .k{color:var(--violet)} .v{color:var(--teal)} .c{color:var(--muted)} .hl{color:var(--amber)}
+  .tag{display:inline-block;font-family:var(--ui);font-size:11.5px;padding:1px 8px;border-radius:20px;border:1px solid;margin-left:6px;vertical-align:middle}
+  .tag.ok{color:var(--green);border-color:var(--green)} .tag.no{color:var(--amber);border-color:var(--amber)}
+  .jwt{margin-top:8px;font-family:var(--mono);font-size:12px;word-break:break-all;line-height:1.7}
+  .jwt .h{color:var(--red)} .jwt .p{color:var(--violet)} .jwt .s{color:var(--teal)}
+  .result{margin-top:8px;font-size:14px}
+  .note{margin-top:14px;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+  @media (prefers-reduced-motion:reduce){.stage,#send{transition:none}}
+</style>
+
+<h2 class="sr-only">클라이언트가 수집한 URL과 anon 키가 어디에 저장되고, HTTP 헤더로 어떻게 실려 Supabase에 전달되어 인증(JWT 서명 검증)과 인가(RLS)를 거쳐 데이터 접근이 결정되는지 보여주는 인터랙티브 다이어그램. 로그인 여부를 바꾸면 저장소와 헤더, 접근 결과가 달라진다.</h2>
+
+<div class="wrap">
+  <div class="head">
+    <h1>인증 &amp; 인가는 어떻게 흐르는가</h1>
+    <p>클라이언트가 모은 <b>URL·anon 키·JWT</b>가 어디 저장되고, 어떻게 실려 Supabase의 <b>인증→인가</b>를 통과하는지.</p>
+  </div>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="로그인 상태">
+      <button id="t-anon" aria-pressed="true">비로그인 (anon)</button>
+      <button id="t-user" aria-pressed="false">로그인 (홍길동)</button>
+    </div>
+    <button id="send">▶ 요청 보내기 (posts 조회)</button>
+  </div>
+  <p class="state" id="state"></p>
+
+  <div class="pipe">
+    <div class="stage" id="s0">
+      <h3><span class="n">1</span>브라우저 저장소 <span class="q">— 무엇을 어디에 모아두나</span></h3>
+      <div class="box" id="b0"></div>
+    </div>
+    <div class="stage" id="s1">
+      <h3><span class="n">2</span>요청 헤더 <span class="q">— supabase-js가 매 요청에 자동 첨부</span></h3>
+      <div class="box" id="b1"></div>
+    </div>
+    <div class="stage" id="s2">
+      <h3><span class="n">3</span>인증 (Authentication) <span class="q">— "너 누구야?"</span></h3>
+      <div class="box" id="b2"></div>
+      <div class="jwt" id="jwt"></div>
+    </div>
+    <div class="stage" id="s3">
+      <h3><span class="n">4</span>인가 (Authorization) <span class="q">— "이거 봐도 돼?"</span></h3>
+      <div class="box" id="b3"></div>
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+
+  <p class="note" id="note"></p>
+</div>
+
+<script>
+(function(){
+  var REF="whwhgggqpyqrtetlwqrt";
+  var URL="https://"+REF+".supabase.co";
+  var ANON="sb_publishable_lOBnJv••••••••";
+  var loggedIn=false, running=false;
+  var $=function(id){return document.getElementById(id);};
+
+  function esc(s){return s;}
+  function render(){
+    $("t-anon").setAttribute("aria-pressed",loggedIn?"false":"true");
+    $("t-user").setAttribute("aria-pressed",loggedIn?"true":"false");
+    $("state").innerHTML = loggedIn
+      ? "지금: <b>로그인 상태</b> — signInWithPassword 성공 후, supabase-js가 <b>유저 JWT</b>를 저장소에 넣어둔 상태."
+      : "지금: <b>비로그인 상태</b> — 아직 로그인 안 함. anon 키만 가진 익명 방문자.";
+
+    // Stage 1 - storage
+    var s = '<span class="c">// localStorage (내가 넣은 값)</span>\n'
+      + '<span class="k">SUPABASE_PROJECT_URL</span> = <span class="v">"'+URL+'"</span>\n'
+      + '<span class="k">..._PUBLISHABLE_API_KEY</span> = <span class="v">"'+ANON+'"</span>  <span class="c">// anon</span>';
+    if(loggedIn){
+      s += '\n\n<span class="c">// supabase-js가 로그인 성공 시 자동 저장</span>\n'
+        + '<span class="k">sb-'+REF+'-auth-token</span> = {\n'
+        + '  <span class="k">access_token</span>: <span class="hl">"eyJhbGciOi…(JWT)"</span>,\n'
+        + '  <span class="k">refresh_token</span>: <span class="v">"v1.M8x…"</span>,\n'
+        + '  <span class="k">user</span>: { id, email, … }\n}';
+    }
+    $("b0").innerHTML=s;
+
+    // Stage 2 - headers
+    var bearer = loggedIn ? '<span class="hl">Bearer eyJhbGciOi…(유저 JWT)</span>' : '<span class="v">Bearer '+ANON+'</span> <span class="c">// anon</span>';
+    $("b1").innerHTML =
+      '<span class="c">// 모든 요청에 붙는 두 헤더</span>\n'
+      + '<span class="k">apikey</span>: <span class="v">'+ANON+'</span>   <span class="c">// 어느 프로젝트+기본 역할</span>\n'
+      + '<span class="k">Authorization</span>: '+bearer+'\n\n'
+      + '<span class="c">GET</span> '+URL+'<span class="hl">/rest/v1/posts</span>';
+
+    // Stage 3 - authentication
+    if(loggedIn){
+      $("b2").innerHTML =
+        '<span class="c">// Supabase가 JWT 서명을 검증 (위조 불가)</span>\n'
+        + '서명 확인 → <span class="v">진짜 Supabase가 발급한 토큰</span> ✓\n'
+        + '<span class="k">role</span>: <span class="hl">authenticated</span>\n'
+        + '<span class="k">sub</span>(uid): <span class="v">3f9a12c4-…-uuid</span>  <span class="c">// = auth.users.id</span>';
+      $("jwt").innerHTML='<span class="c">JWT = </span><span class="h">헤더</span>.<span class="p">페이로드(클레임)</span>.<span class="s">서명</span> &nbsp; '
+        + '<span class="c">→ 페이로드에 role·sub·email·exp가 들어있음</span>';
+    }else{
+      $("b2").innerHTML =
+        '<span class="c">// 유저 JWT 없음 → anon 키로 신원 판정</span>\n'
+        + '<span class="k">role</span>: <span class="hl">anon</span>  <span class="c">// 익명 방문자</span>\n'
+        + '<span class="k">sub</span>(uid): <span class="v">null</span>  <span class="c">// 특정 유저 아님</span>';
+      $("jwt").innerHTML='';
+    }
+
+    // Stage 4 - authorization
+    $("b3").innerHTML =
+      '<span class="c">// Postgres 역할 = role 클레임 → RLS 정책 실행</span>\n'
+      + 'posts_select_policy 검사:\n'
+      + '  visibility = <span class="v">\'PUBLIC\'</span>\n'
+      + '  <span class="c">OR</span> author_id = <span class="hl">auth.uid()</span>  <span class="c">// 내 글이면</span>';
+    $("result").innerHTML = loggedIn
+      ? '<b>결과:</b> 공개(PUBLIC) 글 <b>＋ 홍길동 본인 글</b>까지 반환 <span class="tag ok">auth.uid() 일치</span>'
+      : '<b>결과:</b> <b>공개(PUBLIC) 글만</b> 반환 <span class="tag no">본인/비공개 글 안 보임</span>';
+
+    $("note").innerHTML = "🔑 <b>apikey</b>(anon)는 <b>‘어느 프로젝트’</b>를 가리키는 건물 주소·방문증 — 공개돼도 안전. "
+      + "<b>Authorization의 JWT</b>는 <b>‘어느 유저’</b>인지 증명하는 신분증. "
+      + "인증=신분증 진위 확인, 인가=그 신분으로 뭘 볼 수 있나(RLS). 그래서 anon 키만으론 남의 글을 못 봅니다.";
+    clearActive();
+  }
+  function clearActive(){for(var i=0;i<4;i++){$("s"+i).classList.remove("on","done");}}
+  function setStage(i){for(var k=0;k<4;k++){$("s"+k).classList.toggle("on",k===i);$("s"+k).classList.toggle("done",k<i);}}
+
+  $("t-anon").addEventListener("click",function(){if(!running){loggedIn=false;render();}});
+  $("t-user").addEventListener("click",function(){if(!running){loggedIn=true;render();}});
+
+  var reduce=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function wait(ms){return new Promise(function(r){setTimeout(r,reduce?Math.min(ms,150):ms);});}
+  async function run(){
+    if(running)return;running=true;$("send").disabled=true;clearActive();
+    for(var i=0;i<4;i++){setStage(i);await wait(700);}
+    for(var k=0;k<4;k++){$("s"+k).classList.remove("on");$("s"+k).classList.add("done");}
+    running=false;$("send").disabled=false;
+  }
+  $("send").addEventListener("click",run);
+  render();
+})();
+</script>

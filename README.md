@@ -8,7 +8,8 @@
 
 ## 🖱️ 인터랙티브 시각화
 
-- **[viz/supabase-request-flow.html](viz/supabase-request-flow.html)** — 클라이언트 요청이 Supabase 아키텍처(Kong→서비스→PostgreSQL)를 통과하는 과정을 애니메이션으로 보여주는 excalidraw 스타일 다이어그램. (요청 종류 선택 → 요청 보내기)
+- **[viz/supabase-request-flow.html](viz/supabase-request-flow.html)** — 클라이언트 요청이 Supabase 아키텍처(Kong→서비스→PostgreSQL)를 통과하는 과정 + 3가지 접근 경로(앱/SQL Editor/DB툴)와 RLS 적용/우회를 보여주는 excalidraw 스타일 다이어그램.
+- **[viz/supabase-auth-flow.html](viz/supabase-auth-flow.html)** — URL·anon 키·JWT가 어디 저장되고 헤더로 실려 인증(JWT 검증)→인가(RLS)를 통과하는 과정을 로그인 여부별로 보여주는 인터랙티브 다이어그램.
 
 ## 🗺️ 로드맵
 
