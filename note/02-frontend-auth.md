@@ -42,6 +42,33 @@ localStorage.setItem("SUPABASE_PROJECT_PUBLISHABLE_API_KEY", "<내 anon 키>");
 
 ---
 
-## 4강 · 회원가입 (예정)
+## 4강 · 회원가입 (auth.signUp)
+
+![4강](../image/04-signup-flow.svg)
+
+- `auth.signUp({ email, password, options:{ data:{ name } } })` → **auth.users**에 유저 생성(id=uuid).
+- `options.data` → `auth.users.raw_user_meta_data`에 JSON으로 저장(예: name).
+- 기본은 이메일 인증 필요. 최신 대시보드는 "Confirm email" 토글 위치가 달라 안 보일 수 있음 → **켠 채로 진행해도 회원가입은 됨**(확인은 로그인 가능 여부에만 영향). 확인 장소: Authentication → Users.
+- 최종 코드(바닐라, 동적 import + 폼 submit 핸들러):
+
+```js
+const { data, error } = await supabase.auth.signUp({
+  email, password,
+  options: { data: { name } }
+});
+if (error) { alert("회원가입 실패: " + error.message); return; }
+```
+```html
+<form autocomplete="off">
+  <input name="email" type="email" required>
+  <input name="password" type="password" required minlength="6">
+  <input name="name" type="text" required>
+  <button type="submit">회원가입</button>
+</form>
+```
+
+- 겪은 것: CodePen은 별도 Run 없음(저장=실행), Console 닫으면 프리뷰(폼) 보임, HTML 폼은 HTML 패널에.
+- ✅ 회원가입 성공 → Authentication → Users에 uuid로 유저 생성 확인. 이 uuid가 members 연결 열쇠.
+
 ## 5강 · 로그인 (예정)
 ## 6~7강 · 카카오 소셜 로그인 (예정)
