@@ -1,0 +1,161 @@
+<style>
+  :root{
+    --bg:#FBFAF6; --panel:#FFFFFF; --panel2:#F4F1E8; --ink:#26262B; --muted:#6E6A5E; --line:#D9D4C6;
+    --accent:#1971C2; --amber:#E8590C; --green:#2B8A3E; --violet:#6741D9; --teal:#0C8599; --pink:#C2255C; --red:#E03131;
+    --z1:#EAF2FB; --z2:#EAF5EE; --z3:#FBF0EA; --z4:#F5EFEA;
+    --hand:'Segoe Print','Bradley Hand','Comic Sans MS','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+    --ui:'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;
+    --mono:'Cascadia Code','Consolas','SF Mono',ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#191A1E; --panel:#232429; --panel2:#2A2B31; --ink:#ECEAE2; --muted:#9C988C; --line:#3B3C44;
+    --accent:#4DABF7; --amber:#FFA94D; --green:#69DB7C; --violet:#B197FC; --teal:#3BC9DB; --pink:#F783AC; --red:#FF8787;
+    --z1:#1E2733; --z2:#1B2A22; --z3:#2B2119; --z4:#28231C;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#191A1E; --panel:#232429; --panel2:#2A2B31; --ink:#ECEAE2; --muted:#9C988C; --line:#3B3C44;
+    --accent:#4DABF7; --amber:#FFA94D; --green:#69DB7C; --violet:#B197FC; --teal:#3BC9DB; --pink:#F783AC; --red:#FF8787;
+    --z1:#1E2733; --z2:#1B2A22; --z3:#2B2119; --z4:#28231C;
+  }
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .wrap{background:var(--bg);color:var(--ink);font-family:var(--ui);padding:20px;border-radius:14px;line-height:1.55}
+  .head h1{font-family:var(--hand);font-size:25px;font-weight:400;margin:0 0 2px}
+  .head p{margin:0 0 14px;color:var(--muted);font-size:14px}
+  .map{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+  @media (max-width:640px){.map{grid-template-columns:1fr}}
+  .zone{border:2px dashed var(--line);border-radius:14px;padding:12px}
+  .zone.z1{background:var(--z1)} .zone.z2{background:var(--z2)} .zone.z3{background:var(--z3)} .zone.z4{background:var(--z4)}
+  .zone > .zt{font-family:var(--hand);font-size:16px;margin:0 0 10px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .hot{font-family:var(--ui);font-size:13px;background:var(--panel);color:var(--ink);border:2px solid var(--line);
+    border-radius:9px;padding:6px 10px;cursor:pointer;transition:transform .07s,box-shadow .15s;text-align:left}
+  .hot:hover{transform:translateY(-1px)}
+  .hot.sel{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 38%,transparent)}
+  .hot:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .concepts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .concepts .hot{border-color:var(--violet)}
+  .detail{margin-top:14px;border:2px solid var(--line);border-radius:12px;background:var(--panel);padding:14px 16px;min-height:130px}
+  .detail h3{margin:0 0 3px;font-family:var(--hand);font-size:19px;font-weight:400}
+  .detail .sub{color:var(--muted);font-size:13px;margin:0 0 10px}
+  .detail p{margin:9px 0;font-size:14px}
+  .box{font-family:var(--mono);font-size:12.5px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+    padding:11px 13px;margin:9px 0;overflow-x:auto;white-space:pre;line-height:1.6}
+  .c{color:var(--muted)} .k{color:var(--violet)} .v{color:var(--teal)} .hl{color:var(--amber)}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .tag{font-size:11.5px;padding:2px 9px;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+  .tag.b1{color:var(--green);border-color:var(--green)} .tag.b2{color:var(--accent);border-color:var(--accent)} .tag.adv{color:var(--red);border-color:var(--red)}
+  .idle{color:var(--muted);font-size:14px}
+  .lg{font-size:12px;color:var(--muted);margin:10px 0 0}
+</style>
+
+<h2 class="sr-only">수파베이스 기초1 8강의 완성형 스키마를 영역별로 나눈 지도. 기반(확장·enum), 회원(members 테이블·트리거·JWT helper·RLS·view), 게시글(posts 테이블·RLS·RPC), 데이터(시드) 영역의 각 요소를 클릭하면 실제 코드와 설명, 관련 강 태그가 나온다.</h2>
+
+<div class="wrap">
+  <div class="head">
+    <h1>8강 · 완성형 스키마 지도</h1>
+    <p>목적지 스키마(members + posts). <b>박스를 클릭</b>하면 실제 코드·설명·관련 강이 아래에 펼쳐집니다.</p>
+  </div>
+
+  <div class="map">
+    <div class="zone z1">
+      <p class="zt">🧱 기반</p>
+      <div class="chips">
+        <button class="hot" data-k="ext">확장 (pgcrypto·pgroonga)</button>
+        <button class="hot" data-k="enums">enum 타입 4종</button>
+      </div>
+    </div>
+    <div class="zone z2">
+      <p class="zt">👤 회원 (members)</p>
+      <div class="chips">
+        <button class="hot" data-k="members">members 테이블</button>
+        <button class="hot" data-k="triggers">자동화 트리거 ★</button>
+        <button class="hot" data-k="jwt">JWT helper 함수</button>
+        <button class="hot" data-k="mrls">members RLS</button>
+        <button class="hot" data-k="view">공개 프로필 view</button>
+      </div>
+    </div>
+    <div class="zone z3">
+      <p class="zt">📝 게시글 (posts)</p>
+      <div class="chips">
+        <button class="hot" data-k="posts">posts 테이블 (FK)</button>
+        <button class="hot" data-k="prls">posts RLS</button>
+        <button class="hot" data-k="rpc">게시글 CRUD RPC</button>
+      </div>
+    </div>
+    <div class="zone z4">
+      <p class="zt">🌱 데이터</p>
+      <div class="chips">
+        <button class="hot" data-k="seed">테스트 유저 · 샘플</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="concepts">
+    <button class="hot" data-k="c_rls">🔐 RLS란?</button>
+    <button class="hot" data-k="c_secdef">🛡 security definer / RPC 패턴?</button>
+    <button class="hot" data-k="c_flow">🔗 회원가입 → members 자동생성 흐름</button>
+  </div>
+
+  <div class="detail" id="detail" aria-live="polite"></div>
+  <p class="lg">태그: <span class="tag b1">기초1</span> 이미 배움 · <span class="tag b2">기초2</span> 앞으로 배움 · <span class="tag adv">심화</span> 그 이상</p>
+</div>
+
+<script>
+(function(){
+  var D={
+    ext:{t:"확장 (pgcrypto · pgroonga)",s:"필요한 PostgreSQL 확장 설치",tags:['<span class="tag adv">심화</span>'],
+      code:'<span class="k">create extension if not exists</span> pgcrypto <span class="k">with schema</span> extensions;\n<span class="k">create extension if not exists</span> pgroonga <span class="k">with schema</span> extensions;',
+      body:'<b>pgcrypto</b> = 암호화·uuid 생성(<span class="v">gen_random_uuid()</span>, 비번 해시 <span class="v">crypt()</span>). <b>pgroonga</b> = 한글 전문검색 엔진. extensions 스키마에 따로 설치해 public을 깔끔하게 유지.'},
+    enums:{t:"enum 타입 4종",s:"정해진 값만 허용하는 커스텀 타입",tags:['<span class="tag b2">기초2 12·13부</span>'],
+      code:'<span class="k">create type</span> public.role_type <span class="k">as enum</span> (<span class="v">\'SYSTEM\'</span>,<span class="v">\'ADMIN\'</span>,<span class="v">\'MEMBER\'</span>);\n<span class="k">create type</span> public.member_status <span class="k">as enum</span> (<span class="v">\'ACTIVE\'</span>,<span class="v">\'BLOCKED\'</span>);\n<span class="k">create type</span> public.post_visibility <span class="k">as enum</span> (<span class="v">\'PUBLIC\'</span>,<span class="v">\'UNLISTED\'</span>,<span class="v">\'PRIVATE\'</span>);\n<span class="k">create type</span> public.post_sort <span class="k">as enum</span> (<span class="v">\'RELEVANCE\'</span>, <span class="v">\'CREATED_AT_DESC\'</span>, ...);',
+      body:'타입 자체가 <b>허용 목록을 강제</b> → 오타·잘못된 상태값을 원천 차단. 예: status에 <span class="v">\'ACITVE\'</span>(오타) 넣으면 에러. roles는 이 타입의 <b>배열</b>로 여러 역할 보유.'},
+    members:{t:"members 테이블",s:"회원 정보 — auth.users(로그인 계정)와 연결",tags:['<span class="tag b1">기초1 전부</span>','<span class="tag b2">기초2 enum·array</span>'],
+      code:'<span class="k">create table</span> public.members (\n  id bigint <span class="k">generated always as identity primary key</span>,\n  <span class="hl">auth_user_id uuid not null unique</span>,   <span class="c">-- auth.users.id 와 연결</span>\n  email text,\n  username varchar(50) not null unique,\n  display_name varchar(50) not null,\n  profile_image_url text,\n  roles public.role_type[] not null <span class="k">default</span> array[<span class="v">\'MEMBER\'</span>]::public.role_type[],\n  status public.member_status not null <span class="k">default</span> <span class="v">\'ACTIVE\'</span>,\n  created_at timestamptz not null <span class="k">default</span> now(),\n  modified_at timestamptz not null <span class="k">default</span> now()\n);',
+      body:'기초1에서 배운 게 전부 보여요 — <b>identity PK · not null · unique · default · timestamptz</b>. 새로운 것: <span class="hl">auth_user_id uuid</span>(로그인 유저 연결), <span class="v">roles</span>(enum 배열), <span class="v">status</span>(enum). 우리가 30강에서 만든 members의 완성형.'},
+    triggers:{t:"자동화 트리거 ★ (회원가입→members)",s:"auth.users에 유저 생기면 members 자동 생성",tags:['<span class="tag b2">기초2 트리거·문자열</span>','<span class="tag adv">심화</span>'],
+      code:'<span class="k">create or replace function</span> public.handle_new_user()\n<span class="k">returns trigger language</span> plpgsql <span class="k">security definer</span> <span class="k">as</span> $$\n<span class="k">begin</span>\n  <span class="c">-- 이름/닉네임에서 username 자동 생성 (regexp_replace + uuid 앞 8자)</span>\n  <span class="k">insert into</span> public.members (auth_user_id, email, username, display_name, ...)\n  <span class="k">values</span> (new.id, new.email, ...);\n  <span class="k">return</span> new;\n<span class="k">end</span>; $$;\n\n<span class="k">create trigger</span> on_auth_user_created\n  <span class="k">after insert on</span> auth.users\n  <span class="k">for each row execute function</span> public.handle_new_user();',
+      body:'<b>가장 중요한 연결고리!</b> 4강에서 <span class="v">auth.signUp()</span> → auth.users에 유저 생김 → <b>이 트리거가 자동으로</b> members에 짝 행을 만들어요. username은 이름+uuid앞8자로 자동 생성. → <b>회원가입 한 번에 로그인계정 + 회원정보가 동시에</b> 생기는 마법의 정체. (🔗 흐름 버튼 참고)'},
+    jwt:{t:"JWT helper 함수",s:"로그인 유저 정보를 JWT에서 꺼내는 함수",tags:['<span class="tag b2">기초2 jsonb</span>','<span class="tag adv">RLS</span>'],
+      code:'<span class="k">create or replace function</span> public.current_member_id()\n<span class="k">returns</span> bigint <span class="k">language</span> sql <span class="k">stable as</span> $$\n  <span class="k">select</span> nullif(<span class="hl">auth.jwt()</span> -> <span class="v">\'app_metadata\'</span> ->> <span class="v">\'member_id\'</span>, <span class="v">\'\'</span>)::bigint;\n$$;\n<span class="c">-- 그 외: current_user_has_role(\'ADMIN\'), current_user_is_active(), assert_active_member_id()</span>',
+      body:'<span class="hl">auth.jwt()</span> 로 로그인 유저의 JWT(인증·인가 지도의 그 토큰!)를 읽어 <b>member_id·역할·활성상태</b>를 꺼냄. RLS와 RPC가 "이 유저 누구? 권한 뭐?"를 판단할 때 이 함수들을 씀. <span class="v">-></span>/<span class="v">->></span> 는 jsonb 접근 연산자(기초2 16부).'},
+    mrls:{t:"members RLS",s:"행 단위 접근 통제 + 직접 쓰기 차단",tags:['<span class="tag adv">RLS·심화</span>'],
+      code:'<span class="k">alter table</span> public.members <span class="k">enable row level security</span>;\n\n<span class="k">create policy</span> <span class="v">"members_select_self_or_admin"</span> <span class="k">on</span> public.members\n  <span class="k">for select using</span> ( 본인 <span class="k">or</span> ADMIN );\n\n<span class="k">create policy</span> <span class="v">"members_insert_blocked"</span> ... <span class="k">with check</span> (<span class="hl">false</span>);  <span class="c">-- 직접 insert 금지</span>',
+      body:'회원정보는 <b>본인 또는 관리자만 조회</b>. 직접 insert/update/delete는 전부 막고(<span class="hl">false</span>) → 오직 <b>트리거·RPC를 통해서만</b> 변경. 이게 21강에서 본 "Run and enable RLS"의 완전체.'},
+    view:{t:"공개 프로필 view",s:"민감정보 빼고 공개 컬럼만 노출",tags:['<span class="tag b2">기초2 21부(view)</span>'],
+      code:'<span class="k">create or replace view</span> public.member_public_profiles <span class="k">as</span>\n  <span class="k">select</span> id, username, display_name, profile_image_url <span class="k">from</span> public.members;\n\n<span class="k">grant select on</span> public.member_public_profiles <span class="k">to</span> anon, authenticated;',
+      body:'members는 RLS로 잠그고, <b>공개해도 되는 것(닉네임·프사)만</b> view로 열어줌. email·roles·status 같은 민감정보는 안 보임. 게시글 목록에서 작성자 표시할 때 이 view를 조인.'},
+    posts:{t:"posts 테이블 (FK 연결)",s:"게시글 — 작성자를 members와 외래키로 연결",tags:['<span class="tag b2">기초2 FK·index·enum</span>'],
+      code:'<span class="k">create table</span> public.posts (\n  id bigint <span class="k">generated always as identity primary key</span>,\n  <span class="hl">author_id bigint not null references public.members(id)</span>,  <span class="c">-- FK!</span>\n  title varchar(200) not null,\n  content text not null,\n  visibility public.post_visibility not null <span class="k">default</span> <span class="v">\'PUBLIC\'</span>,\n  created_at timestamptz not null <span class="k">default</span> now(),\n  modified_at timestamptz not null <span class="k">default</span> now()\n);\n<span class="c">-- + 인덱스: author_id, visibility, created_at, pgroonga(제목·본문 전문검색)</span>',
+      body:'<span class="hl">references members(id)</span> = <b>외래키(FK)</b> → 게시글은 반드시 실제 회원의 것(고아 게시글 방지, 20부). visibility는 enum(공개/링크공개/비공개). pgroonga 인덱스로 한글 제목·본문 검색(17-18부).'},
+    prls:{t:"posts RLS",s:"공개글은 누구나, 비공개는 작성자·관리자만",tags:['<span class="tag adv">RLS·심화</span>'],
+      code:'<span class="k">create policy</span> <span class="v">"posts_select_policy"</span> <span class="k">on</span> public.posts <span class="k">for select using</span> (\n  visibility = <span class="v">\'PUBLIC\'</span>\n  <span class="k">or</span> author_id = (<span class="k">select</span> public.current_member_id())  <span class="c">-- 내 글</span>\n  <span class="k">or</span> (<span class="k">select</span> public.current_user_has_role(<span class="v">\'ADMIN\'</span>))  <span class="c">-- 관리자</span>\n);\n<span class="c">-- insert/update/delete 직접은 전부 blocked → RPC로만</span>',
+      body:'인증·인가 지도에서 봤던 그 정책의 실물! <b>공개글=모두, 비공개=작성자/관리자</b>. 직접 쓰기는 막고 RPC로만 → 함수 안에서 검증을 강제하려는 설계.'},
+    rpc:{t:"게시글 CRUD RPC",s:"생성/수정/삭제/조회를 함수로 캡슐화",tags:['<span class="tag adv">security definer RPC</span>'],
+      code:'<span class="k">create or replace function</span> public.create_post(p_title text, p_content text, ...)\n<span class="k">returns</span> public.posts <span class="k">language</span> plpgsql <span class="k">security definer as</span> $$\n<span class="k">begin</span>\n  v_member_id := public.assert_active_member_id();  <span class="c">-- 로그인·활성 확인</span>\n  <span class="c">-- 제목/내용 검증(길이·빈값)...</span>\n  <span class="k">insert into</span> public.posts (author_id, title, content, visibility)\n  <span class="k">values</span> (v_member_id, trim(p_title), ...) <span class="k">returning</span> * <span class="k">into</span> v_post;\n  <span class="k">return</span> v_post;\n<span class="k">end</span>; $$;',
+      body:'앱은 테이블에 직접 못 쓰고 <span class="v">supabase.rpc(\'create_post\', {...})</span> 를 호출. 함수 안에서 <b>로그인 확인·입력 검증·작성자 자동 지정</b>. get_posts는 pgroonga 검색 + 정렬 + 페이징까지 담당. (create/modify/delete/get_posts/get_post 5종)'},
+    seed:{t:"테스트 유저 · 샘플 데이터",s:"개발용 시드 데이터",tags:['<span class="tag adv">심화·시드</span>'],
+      code:'<span class="k">select</span> public.create_test_user(<span class="v">\'admin@no-reply.com\'</span>, ..., array[<span class="v">\'ADMIN\'</span>,<span class="v">\'MEMBER\'</span>]);\n<span class="c">-- auth.users에 직접 유저 생성(crypt로 비번 해시) → 트리거로 members 자동 생성</span>\n<span class="k">insert into</span> public.posts (author_id, title, content, visibility) <span class="k">select</span> ... ;\n<span class="k">drop function if exists</span> public.create_test_user(...);  <span class="c">-- 마지막에 삭제(외부 노출 방지)</span>',
+      body:'개발·테스트용 샘플. system/admin/user 여러 명 + 공개/비공개 샘플 게시글. create_test_user는 쓰고 나서 <b>삭제</b>해 외부에서 못 부르게 함.'},
+    c_rls:{t:"🔐 RLS (Row Level Security)란?",s:"행 단위 접근 제어 — 이 스키마 보안의 뼈대",tags:['<span class="tag adv">핵심 개념</span>'],
+      code:'<span class="k">alter table</span> t <span class="k">enable row level security</span>;\n<span class="k">create policy</span> ... <span class="k">for select using</span> (조건);',
+      body:'테이블에 RLS를 켜면 <b>기본적으로 모든 행이 차단</b>되고, policy로 <b>허용 조건을 SQL로</b> 적어요. 조건에 <span class="v">current_member_id()</span>·<span class="v">current_user_has_role()</span>(JWT 기반)을 써서 "이 로그인 유저가 이 행을 봐도 되나"를 행마다 판정. 인증·인가 지도의 "인가" 단계가 바로 이것. (기초2 이후 심화에서 제대로)'},
+    c_secdef:{t:"🛡 security definer / RPC 패턴",s:"함수로 안전하게 쓰기 작업을 캡슐화",tags:['<span class="tag adv">핵심 개념</span>'],
+      code:'<span class="k">create function</span> f() ... <span class="k">security definer</span> ...\n<span class="c">-- 앱: 테이블 직접 insert 금지 → supabase.rpc(\'f\') 만 허용</span>',
+      body:'<b>security definer</b> = 함수가 <b>정의한 사람(관리자) 권한</b>으로 실행됨 → RLS를 우회할 수 있음. 그래서 테이블 직접 쓰기는 RLS로 막고, <b>검증 로직을 담은 RPC 함수로만</b> 쓰게 함. "아무나 못 쓰고, 검증 통과한 것만 쓴다"를 강제하는 실무 패턴.'},
+    c_flow:{t:"🔗 회원가입 → members 자동생성 흐름",s:"우리가 4강에서 한 것 + 이 스키마가 합쳐지는 지점",tags:['<span class="tag b1">4강</span>','<span class="tag adv">트리거</span>'],
+      code:'1) 앱: supabase.auth.signUp(...)\n2) → auth.users에 유저 생성 (id = uuid)\n3) → <span class="hl">on_auth_user_created 트리거</span> 발동\n4) → handle_new_user() 가 public.members에 짝 행 insert\n5) → members.auth_user_id = auth.users.id 로 연결됨',
+      body:'4강에서 회원가입하면 auth.users에만 유저가 생겼죠. 이 스키마를 쓰면 <b>트리거가 자동으로 members까지</b> 만들어줘요. 그래서 "로그인 계정(auth)"과 "우리 서비스 회원(members)"이 uuid로 1:1 연결됩니다. 이게 8강 스키마의 심장.'}
+  };
+  var cur=null, det=document.getElementById("detail");
+  function render(){
+    document.querySelectorAll(".hot").forEach(function(b){b.classList.toggle("sel",b.dataset.k===cur);});
+    if(cur&&D[cur]){var d=D[cur];
+      det.innerHTML='<h3>'+d.t+'</h3><p class="sub">'+d.s+'</p>'+(d.code?'<div class="box">'+d.code+'</div>':'')+'<p>'+d.body+'</p><div class="tags">'+(d.tags||[]).join('')+'</div>';
+    } else {
+      det.innerHTML='<p class="idle">👆 지도에서 <b>박스를 클릭</b>하면 실제 코드·설명·관련 강이 여기 나옵니다. ★ <b>자동화 트리거</b>와 🔗 <b>흐름</b>부터 눌러보세요 — 8강의 심장이에요.</p>';
+    }
+  }
+  document.querySelectorAll(".hot").forEach(function(b){b.addEventListener("click",function(){cur=b.dataset.k;render();});});
+  render();
+})();
+</script>

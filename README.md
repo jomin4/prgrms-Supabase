@@ -10,6 +10,7 @@
 
 - **[viz/supabase-request-flow.html](viz/supabase-request-flow.html)** — 클라이언트 요청이 Supabase 아키텍처(Kong→서비스→PostgreSQL)를 통과하는 과정 + 3가지 접근 경로(앱/SQL Editor/DB툴)와 RLS 적용/우회를 보여주는 excalidraw 스타일 다이어그램.
 - **[viz/supabase-auth-flow.html](viz/supabase-auth-flow.html)** — URL·anon 키·JWT가 어디 저장되고 헤더로 실려 인증(JWT 검증)→인가(RLS)를 통과하는 과정을 로그인 여부별로 보여주는 인터랙티브 다이어그램.
+- **[viz/supabase-final-schema-map.html](viz/supabase-final-schema-map.html)** — 8강 완성형 스키마(members·posts + 트리거·RLS·RPC·전문검색)를 영역별로 클릭하며 실제 코드·설명·관련 강을 보는 인터랙티브 통독 지도.
 
 ## 🗺️ 로드맵
 
@@ -23,7 +24,31 @@
 **다음 편:** [수파베이스 기초 2 — SQL DML + 데이터 모델링](https://www.slog.gg/p/14165)
 *(1~3부 프론트엔드/회원가입/카카오 로그인은 미진행 — 추후 선택)*
 
-## 학습 진행 현황
+## 📕 수파베이스 기초 2 — SQL DML + 데이터 모델링 (진행 중)
+
+교재: [slog.gg/p/14167](https://www.slog.gg/p/14167) · 30강~87강
+
+| 부 | 강 | 주제 | 상태 |
+|---|---|---|---|
+| 8부 | 30~33 | insert 기초 | ⬜ |
+| 9부 | 34~38 | select 기초 (where, order by, limit) | ⬜ |
+| 10부 | 39~42 | update / delete / truncate | ⬜ |
+| 11부 | 43~44 | casting (`::`) | ⬜ |
+| 12부 | 45~48 | enum | ⬜ |
+| 13부 | 49~52 | array | ⬜ |
+| 14부 | 53~56 | null 처리 (coalesce, nullif) | ⬜ |
+| 15부 | 57~59 | 문자열 함수 | ⬜ |
+| 16부 | 60~63 | jsonb 기초 | ⬜ |
+| 17부 | 64~66 | index 기초 (btree) | ⬜ |
+| 18부 | 67~69 | 특수 index (partial, GIN) | ⬜ |
+| 19부 | 70~72 | join (inner/left) | ⬜ |
+| 20부 | 73~75 | foreign key | ⬜ |
+| 21부 | 76~78 | view | ⬜ |
+| 22부 | 79~81 | values / insert…select | ⬜ |
+| 23부 | 82~84 | select 고급 (CTE, window) | ⬜ |
+| 24부 | 85~87 | 데이터 모델링 통독 (members/posts) | ⬜ |
+
+## ✅ 수파베이스 기초 1 — 완주 (아래)
 
 | 부 | 강 | 주제 | 상태 |
 |---|---|---|---|
