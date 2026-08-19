@@ -16,15 +16,14 @@
 
 강의 완주 후 Supabase를 제대로 익히고 최종 프로젝트까지 가는 전체 계획: **[CURRICULUM.md](CURRICULUM.md)**
 
-## 🎉 SQL DDL 기초 완주 (4~7부, 9~29강)
+## 🎉 수파베이스 기초 1 — 완주 (1~29강 전부)
 
-`create table`부터 타입 · 제약조건 · identity까지, 테이블을 설계하는 SQL DDL 전 구간을 완료했습니다.
-각 강은 **[sql](sql/) 실습 · [image](image/) 시각화 · [note](note/) 노트** 3종으로 기록되어 있습니다.
+Supabase 구조·인증(회원가입/로그인/카카오)·SQL DDL(테이블/타입/제약/identity)·최종 스키마 통독까지 **29강 전 과정 완료**.
+각 강은 **[sql](sql/) 실습 · [image](image/) 시각화 · [note](note/) 노트 · [viz](viz/) 인터랙티브** 로 기록되어 있습니다.
 
-**다음 편:** [수파베이스 기초 2 — SQL DML + 데이터 모델링](https://www.slog.gg/p/14165)
-*(1~3부 프론트엔드/회원가입/카카오 로그인은 미진행 — 추후 선택)*
+**다음:** [수파베이스 기초 2 — SQL DML + 데이터 모델링](https://www.slog.gg/p/14167) (아래)
 
-## 📕 수파베이스 기초 2 — SQL DML + 데이터 모델링 (진행 중)
+## 📕 수파베이스 기초 2 — SQL DML + 데이터 모델링 (예정)
 
 교재: [slog.gg/p/14167](https://www.slog.gg/p/14167) · 30강~87강
 
@@ -58,6 +57,7 @@
 | 2부 | 4강 | 회원가입 (`auth.signUp`) | ✅ |
 | 2부 | 5강 | 로그인 (`signInWithPassword`) + 세션 개념 | ✅ |
 | 2부 | 6·7강 | 카카오 소셜 로그인 (OAuth) | ✅ |
+| 3부 | 8강 | 최종 SQL 미리보기 (완성형 스키마 통독) | ✅ |
 | 4부 | 9강 | `create table` 만들기 기초 | ✅ |
 | 4부 | 10강 | 여러 컬럼과 콤마 | ✅ |
 | 4부 | 11강 | SQL 문장의 세미콜론 | ✅ |
@@ -95,4 +95,4 @@ prgrms-Supabase/
 각 강은 세 종류로 기록됩니다:
 - **sql/** — 실제로 타이핑·실행한 SQL (`NN-주제.sql`)
 - **image/** — 개념을 시각화한 그림 (`NN-주제.svg`, GitHub에서 바로 렌더링)
-- **note/** — 부 단위로 묶은 학습 노트 ([1부](note/01-supabase-basics.md) · [2부](note/02-frontend-auth.md) · [4부](note/04-table-basics.md) · [5부](note/05-types.md) · [6부](note/06-constraints.md) · [7부](note/07-identity.md))
+- **note/** — 부 단위로 묶은 학습 노트 ([1부](note/01-supabase-basics.md) · [2부](note/02-frontend-auth.md) · [3부](note/03-final-schema.md) · [4부](note/04-table-basics.md) · [5부](note/05-types.md) · [6부](note/06-constraints.md) · [7부](note/07-identity.md))
